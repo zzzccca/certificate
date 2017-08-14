@@ -9,4 +9,5 @@ import pc.certificate.domain.User;
  */
 @Repository
 public interface UserRepository extends CrudRepository<User,String>{
+    User findByCardid(String cardid);
 }

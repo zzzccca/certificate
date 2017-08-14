@@ -11,7 +11,7 @@ public enum ErrorCode {
     ,NAMEORPWDERROR(7001,"用户名密码不正确")
     ,Repeat(7002,"帐号在别处登陆")
     ,SUCCESS(0,"操作成功")
-    ,NOPERMISSION(5555,"您没有执行该操作的权限！")
+    ,NOCERTIFICATE(5555,"查无您的证书或已经注册,无法注册！")
     ,NOKUCUN(6666,"商品库存不足!")
     ,XIAJIA(4444,"商品已下架!")
     ,PASSPORTFORBID(77778,"该账号已经被禁用或未扫码绑定!")
