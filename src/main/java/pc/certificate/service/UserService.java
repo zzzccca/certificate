@@ -20,4 +20,10 @@ public class UserService {
     public User finduser(String cardid){
         return this.userRepository.findByCardid(cardid);
     }
+
+    public User upphone(String id,String phone){
+        User a=this.userRepository.findById(id);
+        a.setPhone(phone);
+        return this.userRepository.save(a);
+    }
 }

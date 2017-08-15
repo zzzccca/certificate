@@ -13,7 +13,6 @@ import pc.certificate.service.UserService;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
-import java.lang.annotation.ElementType;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -72,6 +71,12 @@ public class UserContorl {
             }
         } else
             return ErrorCode.NOCERTIFICATE;
+    }
+
+    @RequestMapping("/user/upphone")
+    public ErrorCode upphone(String id,String phone){
+        this.userService.upphone(id,phone);
+        return ErrorCode.SUCCESS;
     }
 
 }

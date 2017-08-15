@@ -7,7 +7,6 @@ package pc.certificate.contorl;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import pc.certificate.domain.enums.ErrorCode;
 import pc.certificate.service.ImageService;
 
 import javax.servlet.http.HttpServletRequest;
