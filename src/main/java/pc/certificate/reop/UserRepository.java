@@ -1,5 +1,7 @@
 package pc.certificate.reop;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 import pc.certificate.domain.User;
@@ -14,4 +16,6 @@ public interface UserRepository extends CrudRepository<User,String>{
     User findByCardidAndPassword(String cardid,String password);
 
     User findById(String id);
+
+    Page<User> findAll(Pageable pageable);
 }
