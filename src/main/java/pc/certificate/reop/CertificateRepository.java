@@ -13,4 +13,6 @@ import java.util.List;
 public interface CertificateRepository extends CrudRepository<Certificate,String>{
 
     List<Certificate> findByNameAndCardid(String name, String cardid);
+
+    List<Certificate> findByCardid(String cardid);
 }

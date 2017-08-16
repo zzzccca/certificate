@@ -19,8 +19,10 @@ public class UserService {
     public User useradd(User user){
         String phonedes=this.desService.encrypt(user.getPhone());
         String cardiddes=this.desService.encrypt(user.getCardid());
+        String passworddes=this.desService.encrypt(user.getPassword());
         user.setPhone(phonedes);
         user.setCardid(cardiddes);
+        user.setPassword(passworddes);
         return this.userRepository.save(user);
     }
 

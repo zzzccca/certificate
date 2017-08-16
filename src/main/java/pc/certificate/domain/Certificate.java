@@ -16,6 +16,7 @@ import java.io.Serializable;
 public class Certificate extends BaseEntity implements Serializable {
     private String cardid;//身份证
     private String name;//名字
+    private String binding;//绑定人
 
     public String getCardid() {
         return cardid;
@@ -31,5 +32,13 @@ public class Certificate extends BaseEntity implements Serializable {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getBinding() {
+        return binding;
+    }
+
+    public void setBinding(String binding) {
+        this.binding = binding;
     }
 }

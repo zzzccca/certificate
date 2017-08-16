@@ -48,7 +48,7 @@ public class UserContorl {
     }
 
     @RequestMapping("/user/zhuce")
-    public Object zhuche(String name, String cardid, String phone, String code, HttpServletRequest request) {
+    public Object zhuche(String name, String cardid, String phone,String password, String code, HttpServletRequest request) {
         Map map = new HashMap();
         Map image = new HashMap();
         try {
@@ -63,6 +63,7 @@ public class UserContorl {
                 user.setName(name);
                 user.setCardid(cardid);
                 user.setPhone(phone);
+                user.setPassword(password);
                 this.userService.useradd(user);
                 String id=this.userService.finduser(cardid).getId();
                 Map idmap=new HashMap();
@@ -87,6 +88,7 @@ public class UserContorl {
         User user=this.userService.login(card,pwd);
         if (image.get("errorcode").equals(200)) {
             if (user != null) {
+                this.certificateService.upbinding(card,user.getId());
                 Map map = new HashMap();
                 map.put("errorcode", '0');
                 map.put("errorinfo", user.getId());

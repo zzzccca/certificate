@@ -52,7 +52,7 @@ public class DesService {
             SecretKey secretKey = keyFactory.generateSecret(dks);
 
             // using DES in ECB mode
-            Cipher cipher = Cipher.getInstance("DES/ECB/PKCS5Padding");
+            Cipher cipher = Cipher.getInstance("DES/ECB/PKCS5Padding");//算法/模式/补码
 
             // 用密匙初始化Cipher对象
             cipher.init(Cipher.ENCRYPT_MODE, secretKey, sr);
