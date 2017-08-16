@@ -32,6 +32,7 @@ public class UserContorl {
     @Autowired
     private ImagegenContorl imagegenContorl;
 
+
     @Autowired
     private CertificateService certificateService;
 
@@ -63,7 +64,11 @@ public class UserContorl {
                 user.setCardid(cardid);
                 user.setPhone(phone);
                 this.userService.useradd(user);
-                return ErrorCode.SUCCESS;
+                String id=this.userService.finduser(cardid).getId();
+                Map idmap=new HashMap();
+                idmap.put("errorcode",0);
+                idmap.put("errorinfo",id);
+                return idmap;
             } else if (!map.get("errorcode").equals(200)) {
                 return map;
             } else {
@@ -73,9 +78,40 @@ public class UserContorl {
             return ErrorCode.NOCERTIFICATE;
     }
 
+    @RequestMapping("/user/login")
+    public Object login(String cardid,String password,HttpServletRequest request){
+        Map image=new HashMap();
+        image = this.imagegenContorl.checkimagecode(request);
+        String card=this.userService.encryptcardid(cardid);
+        String pwd=this.userService.encryptpassword(password);
+        User user=this.userService.login(card,pwd);
+        if (image.get("errorcode").equals(200)) {
+            if (user != null) {
+                Map map = new HashMap();
+                map.put("errorcode", '0');
+                map.put("errorinfo", user.getId());
+                return map;
+            } else
+                return ErrorCode.NAMEORPWDERROR;
+        }else
+            return image;
+    }
+
+
+    @RequestMapping("/user/findone")
+    public User upphone(String id){
+       return this.userService.findone(id);
+    }
+
     @RequestMapping("/user/upphone")
     public ErrorCode upphone(String id,String phone){
         this.userService.upphone(id,phone);
+        return ErrorCode.SUCCESS;
+    }
+
+    @RequestMapping("/user/uppassword")
+    public ErrorCode uppassward(String id,String password){
+        this.userService.uppassword(id,password);
         return ErrorCode.SUCCESS;
     }
 
