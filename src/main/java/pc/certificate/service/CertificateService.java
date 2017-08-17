@@ -20,7 +20,7 @@ public class CertificateService {
     private DesService desService;
 
     public List<Certificate> findcertificate(String name, String cardid){
-        String descardid=this.desService.decrypt(cardid);
+        String descardid=this.desService.encrypt(cardid);
         return this.certificateRepository.findByNameAndCardid(name,descardid);
     }
 
