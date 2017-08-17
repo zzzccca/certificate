@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+import pc.certificate.domain.Certificate;
 import pc.certificate.domain.User;
 import pc.certificate.domain.enums.ErrorCode;
 import pc.certificate.service.CertificateService;
@@ -13,8 +14,8 @@ import pc.certificate.service.UserService;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
-import java.lang.annotation.ElementType;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -89,9 +90,9 @@ public class UserContorl {
         User user=this.userService.login(card,pwd);
         if (image.get("errorcode").equals(200)) {
             if (user != null) {
-                this.certificateService.upbinding(card,user.getId());
+                List<Certificate> shuliang=this.certificateService.upbinding(card,user.getId());
                 Map map = new HashMap();
-                map.put("errorcode", '0');
+                map.put("errorcode", shuliang.size());
                 map.put("errorinfo", user.getId());
                 return map;
             } else

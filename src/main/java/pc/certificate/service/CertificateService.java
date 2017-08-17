@@ -24,10 +24,12 @@ public class CertificateService {
         return this.certificateRepository.findByNameAndCardid(name,descardid);
     }
 
-    public void upbinding(String cardid,String id){
+    public List<Certificate> upbinding(String cardid,String id){
         List<Certificate> a=this.certificateRepository.findByCardid(cardid);
         for (int i=0;i<a.size();i++){
             a.get(i).setBinding(id);
         }
+        this.certificateRepository.save(a);
+        return a;
     }
 }
