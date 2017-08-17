@@ -13,6 +13,7 @@ import pc.certificate.service.UserService;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
+import java.lang.annotation.ElementType;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -112,9 +113,31 @@ public class UserContorl {
     }
 
     @RequestMapping("/user/uppassword")
-    public ErrorCode uppassward(String id,String password){
-        this.userService.uppassword(id,password);
-        return ErrorCode.SUCCESS;
+    public Object uppassward(String id, String cardid, String code, String phone, String password, HttpServletRequest request) {
+
+        User user = this.userService.findone(id);
+        if (user.getCardid().equals(cardid)) {
+
+            Map map = new HashMap();
+            Map image = new HashMap();
+            try {
+                map = this.smsService.checkMsg(phone, code);//验证短信验证码返回的状态码
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            image = this.imagegenContorl.checkimagecode(request);//图形验证码返回的状态码
+            if (map.get("errorcode").equals(200) && image.get("errorcode").equals(200)) {
+                this.userService.uppassword(id, password);
+                return ErrorCode.SUCCESS;
+            } else if (!map.get("errorcode").equals(200)) {
+                return map;
+            } else {
+                return image;
+            }
+        }
+        else
+            return ErrorCode.NOCARD;
     }
+
 
 }

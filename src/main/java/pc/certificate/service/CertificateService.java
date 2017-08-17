@@ -16,8 +16,12 @@ public class CertificateService {
     @Autowired
     private CertificateRepository certificateRepository;
 
+    @Autowired
+    private DesService desService;
+
     public List<Certificate> findcertificate(String name, String cardid){
-        return this.certificateRepository.findByNameAndCardid(name,cardid);
+        String descardid=this.desService.decrypt(cardid);
+        return this.certificateRepository.findByNameAndCardid(name,descardid);
     }
 
     public void upbinding(String cardid,String id){
