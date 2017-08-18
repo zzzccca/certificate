@@ -49,16 +49,16 @@ public class ImagegenContorl {
         //1:获取session验证码的信息
         String code = (String) request.getSession().getAttribute(request.getSession().getId() + "imagecode");
         //2:判断验证码是否正确
-            Map map=new HashMap();
+        Map map = new HashMap();
         if (!StringUtils.isEmpty(validateCode) && validateCode.equalsIgnoreCase(code)) {
             request.getSession().removeAttribute(request.getSession().getId() + "imagecode");//注销session
-            map.put("errorcode",200);
-            map.put("errorinfo","图形验证成功");
+            map.put("errorcode", 200);
+            map.put("errorinfo", "图形验证成功");
+            return map;
+        } else {
+            map.put("errorcode", 404);
+            map.put("errorinfo", "图形验证失败");
             return map;
         }
-        map.put("errorcode",404);
-        map.put("errorinfo","图形验证失败");
-        return map;
     }
-
 }
