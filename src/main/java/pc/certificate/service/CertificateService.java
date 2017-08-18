@@ -5,6 +5,8 @@ import org.springframework.stereotype.Service;
 import pc.certificate.domain.Certificate;
 import pc.certificate.reop.CertificateRepository;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 /**
@@ -31,5 +33,17 @@ public class CertificateService {
         }
         this.certificateRepository.save(a);
         return a;
+    }
+
+    public List<Certificate> findbynameandbirthdate(String usercardid,String name){
+        String birthdate=usercardid;
+        String birthdates=usercardid.substring(6,14);
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
+        try {
+        birthdate = sdf.parse(birthdates).getTime()+"";//毫秒
+        }catch (ParseException e){
+            e.printStackTrace();
+        }
+        return this.certificateRepository.findByNameAndBirthdate(name,birthdate);
     }
 }
