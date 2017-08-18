@@ -36,13 +36,13 @@ public class SmsService {
             SERVER_URL2="https://api.netease.im/sms/verifycode.action";
         //网易云信分配的账号，请替换你在管理后台应用下申请的Appkey
         private static final String
-                APP_KEY="f66c7f4f9542df498241fa725c1318f1";
+                APP_KEY="06ee641fe0577e564ecb5db7a43c623e";
         //网易云信分配的密钥，请替换你在管理后台应用下申请的appSecret
-        private static final String APP_SECRET="0c44768ee5c4";
+        private static final String APP_SECRET="fbbc012ba61e";
         //随机数
 //        private static final String NONCE="123456";
         //短信模板ID
-        private static final String TEMPLATEID="3058846";
+        private static final String TEMPLATEID="";//3058846
         //手机号
 //        private static final String MOBILE="13888888888";
         //验证码长度，范围4～10，默认为4
