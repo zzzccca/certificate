@@ -13,7 +13,7 @@ public enum ErrorCode {
     ,SUCCESS(0,"操作成功")
     ,NOCERTIFICATE(5555,"查无您的证书或已经注册,无法注册！")
     ,NOCARD(6666,"身份证错误!")
-    ,XIAJIA(4444,"商品已下架!")
+    ,NOCERTIFICATEID(4444,"查无此证!")
     ,PASSPORTFORBID(77778,"该账号已经被禁用或未扫码绑定!")
     ,CANNOTBINDSECOND(77779,"绑定不成功：一个微信智能绑定一个账号")
     ,SHANGJIA(8888,"该商品属于禁用分类中，上架失败!")

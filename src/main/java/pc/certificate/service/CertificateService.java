@@ -7,6 +7,9 @@ import pc.certificate.reop.CertificateRepository;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -45,5 +48,41 @@ public class CertificateService {
             e.printStackTrace();
         }
         return this.certificateRepository.findByNameAndBirthdate(name,birthdate);
+    }
+
+    public Certificate findbyid(String id){//二维码扫描
+        Certificate certificate=new Certificate();
+        certificate=this.certificateRepository.findById(id);
+        if (certificate.getBirthdate()!=null) {
+            certificate.setBirthdate(test(certificate.getBirthdate()));
+        }
+        if (certificate.getApprovalofdate()!=null) {
+            certificate.setApprovalofdate(test(certificate.getApprovalofdate()));
+        }
+        if (certificate.getIssuanceoftime()!=null) {
+            certificate.setIssuanceoftime(test(certificate.getIssuanceoftime()));
+        }
+
+        return certificate;
+    }
+
+    public List<Certificate> findbycertificatename(String certificatename){
+        List<Certificate> certificates= this.certificateRepository.findByCertificatenameLike(certificatename);
+        List certificatenames=new ArrayList<>();
+        for (int i=0;i<certificates.size();i++){
+            certificatenames.add(certificates.get(i).getCertificatename());
+        }
+        return certificatenames;
+    }
+
+    public Certificate findbycertificate(String name,String certificatenumber,String certificatename){
+        return this.certificateRepository.findByNameAndCertificatenumberAndCertificatename(name,certificatenumber,certificatename);
+    }
+
+    public String test(String milliseconds) {
+        long millisecond=Long.parseLong(milliseconds);
+        Date date = new Date(millisecond);
+        SimpleDateFormat format = new SimpleDateFormat("yyyy年MM月dd日");
+        return format.format(date).toString();
     }
 }

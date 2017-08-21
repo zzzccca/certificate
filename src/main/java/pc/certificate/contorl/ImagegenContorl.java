@@ -51,7 +51,7 @@ public class ImagegenContorl {
         //2:判断验证码是否正确
         Map map = new HashMap();
         if (!StringUtils.isEmpty(validateCode) && validateCode.equalsIgnoreCase(code)) {
-//            request.getSession().removeAttribute(request.getSession().getId() + "imagecode");//注销session
+            request.getSession().removeAttribute(request.getSession().getId() + "imagecode");//注销session
             map.put("errorcode", 200);
             map.put("errorinfo", "图形验证成功");
             return map;
