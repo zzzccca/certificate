@@ -36,9 +36,9 @@ public class SmsService {
             SERVER_URL2="https://api.netease.im/sms/verifycode.action";
         //网易云信分配的账号，请替换你在管理后台应用下申请的Appkey
         private static final String
-                APP_KEY="06ee641fe0577e564ecb5db7a43c623e";
+                APP_KEY="78f9330d9b8138ae9c6b3975c136cab2";
         //网易云信分配的密钥，请替换你在管理后台应用下申请的appSecret
-        private static final String APP_SECRET="fbbc012ba61e";
+        private static final String APP_SECRET="f4be1cb67bd2";
         //随机数
 //        private static final String NONCE="123456";
         //短信模板ID

@@ -76,4 +76,8 @@ public class UserService {
         a.setPassword(newpwd);
         return this.userRepository.save(a);
     }
+
+    public void deluser(String id){
+        this.userRepository.delete(id);
+    }
 }

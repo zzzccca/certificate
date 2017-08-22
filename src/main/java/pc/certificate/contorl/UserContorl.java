@@ -14,6 +14,7 @@ import pc.certificate.service.UserService;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
+import java.util.EmptyStackException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -138,6 +139,17 @@ public class UserContorl {
         }
         else
             return ErrorCode.NOCARD;
+    }
+
+    @RequestMapping("/user/delete")
+    public Object deluser(String id) throws Exception{
+        try {
+        this.userService.deluser(id);
+        return ErrorCode.SUCCESS;
+        }catch (Exception e){
+            e.printStackTrace();
+            return ErrorCode.NULLTEL;
+        }
     }
 
 
