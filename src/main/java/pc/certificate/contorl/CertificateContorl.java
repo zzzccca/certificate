@@ -5,11 +5,9 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.multipart.MultipartFile;
 import pc.certificate.domain.Certificate;
 import pc.certificate.domain.enums.ErrorCode;
 import pc.certificate.service.CertificateService;
-import pc.certificate.service.UploadexlService;
 
 import java.util.List;
 
