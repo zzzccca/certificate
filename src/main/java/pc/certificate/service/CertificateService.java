@@ -1,16 +1,17 @@
 package pc.certificate.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import pc.certificate.domain.Certificate;
+import pc.certificate.domain.enums.ErrorCode;
 import pc.certificate.reop.CertificateRepository;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by wu on 17-8-14.
@@ -84,5 +85,39 @@ public class CertificateService {
         Date date = new Date(millisecond);
         SimpleDateFormat format = new SimpleDateFormat("yyyy年MM月dd日");
         return format.format(date).toString();
+    }
+
+    public Object pageall(int page,int row){
+        Pageable pageable=new PageRequest(page-1,row);
+        Page<Certificate> list=this.certificateRepository.findAll(pageable);
+
+        for (int a=0;a<list.getContent().size();a++){
+            String newcard=this.desService.decrypt(list.getContent().get(a).getCardid());
+            list.getContent().get(a).setCardid(newcard);
+
+            if (list.getContent().get(a).getBirthdate()!=null) {
+                list.getContent().get(a).setBirthdate(test(list.getContent().get(a).getBirthdate()));
+            }
+            if (list.getContent().get(a).getApprovalofdate()!=null) {
+                list.getContent().get(a).setApprovalofdate(test(list.getContent().get(a).getApprovalofdate()));
+            }
+            if (list.getContent().get(a).getIssuanceoftime()!=null) {
+                list.getContent().get(a).setIssuanceoftime(test(list.getContent().get(a).getIssuanceoftime()));
+            }
+        }
+
+        try {
+            if (page>list.getTotalPages()){
+                return ErrorCode.Lastpage;
+            }else {
+                Map map=new HashMap();
+                map.put("total",list.getTotalElements());//数据总数
+                map.put("totalpage",list.getTotalPages());//总页数
+                map.put("rows",list.getContent());//分页应该显示的数据
+                return map;
+            }
+        }catch (IllegalArgumentException e){
+            return ErrorCode.Firstpage;
+        }
     }
 }

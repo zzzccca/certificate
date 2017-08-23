@@ -1,14 +1,17 @@
 package pc.certificate.contorl;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 import pc.certificate.domain.Certificate;
 import pc.certificate.domain.enums.ErrorCode;
 import pc.certificate.service.CertificateService;
 
+import javax.print.DocFlavor;
 import java.util.List;
 
 /**
@@ -45,4 +48,17 @@ public class CertificateContorl {
     public Object findbycertificate(String name,String certificatenumber,String certificatename){
         return this.certificateService.findbycertificate(name,certificatenumber,certificatename);
     }
+
+    @RequestMapping("/certificate/pageall")
+    public Object pageall(int page,int row){
+        return this.certificateService.pageall(page,row);
+    }
+
+//    @RequestMapping("certificate/uploadexl")
+//    public Object uploadexl(MultipartFile exl){
+//        if (exl==null) return ErrorCode.NULL;
+//        String name=exl.getOriginalFilename();
+//        long size=exl.getSize();
+//        if(name==null || ("").equals(name) && size==0) return ErrorCode.NULL;//以上4行皆是判断文件是否为空
+//    }
 }
