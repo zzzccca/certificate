@@ -22,9 +22,6 @@ public class CertificateContorl {
     @Autowired
     private CertificateService certificateService;
 
-    @Autowired
-    private UploadexlService uploadexlService;
-
     @RequestMapping("/certificate/fuzzy")
     public List<Certificate> fuzzy(String usercardid,String name){
         return this.certificateService.findbynameandbirthdate(usercardid,name);
@@ -56,15 +53,6 @@ public class CertificateContorl {
         return this.certificateService.pageall(page,row);
     }
 
-    @RequestMapping("certificate/uploadexl")
-    public Object uploadexl(MultipartFile exl){
-        if (exl==null) return ErrorCode.NULL;
-        String name=exl.getOriginalFilename();
-        long size=exl.getSize();
-        if(name==null || ("").equals(name) && size==0) return ErrorCode.NULL;//以上4行皆是判断文件是否为空
-        this.uploadexlService.getexl(exl,name);
-        return ErrorCode.SUCCESS;
-    }
 
     @RequestMapping("certificate/addcertificate")
     public ErrorCode addcertificate(String cardid){
