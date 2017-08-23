@@ -120,4 +120,9 @@ public class CertificateService {
             return ErrorCode.Firstpage;
         }
     }
+
+
+    public void addcertificate(Certificate certificate){
+        this.certificateRepository.save(certificate);
+    }
 }
