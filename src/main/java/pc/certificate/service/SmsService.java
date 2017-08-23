@@ -42,7 +42,7 @@ public class SmsService {
         //随机数
 //        private static final String NONCE="123456";
         //短信模板ID
-        private static final String TEMPLATEID="";//3058846
+        private static final String TEMPLATEID="3080023";//3058846
         //手机号
 //        private static final String MOBILE="13888888888";
         //验证码长度，范围4～10，默认为4
