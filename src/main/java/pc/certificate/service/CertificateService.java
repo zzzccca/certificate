@@ -50,6 +50,13 @@ public class CertificateService {
         return this.certificateRepository.findByNameAndBirthdate(name,birthdate);
     }
 
+    public String tomilliseconds(String birthdates)throws Exception{
+        String birthdate=null;
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
+        birthdate = sdf.parse(birthdates).getTime()+"";//毫秒
+        return birthdate;
+    }
+
     public Certificate findbyid(String id){//二维码扫描
         Certificate certificate=new Certificate();
         certificate=this.certificateRepository.findById(id);
@@ -75,6 +82,11 @@ public class CertificateService {
         return certificatenames;
     }
 
+    public List<Certificate> certificatename(String certificatename){
+        return this.certificateRepository.findByCertificatenameLike(certificatename);
+
+    }
+
     public Certificate findbycertificate(String name,String certificatenumber,String certificatename){
         return this.certificateRepository.findByNameAndCertificatenumberAndCertificatename(name,certificatenumber,certificatename);
     }
@@ -86,12 +98,6 @@ public class CertificateService {
         return format.format(date).toString();
     }
 
-    public String tomilliseconds(String birthdates)throws Exception{
-        String birthdate=null;
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
-        birthdate = sdf.parse(birthdates).getTime()+"";//毫秒
-        return birthdate;
-    }
 
     public Object pageall(int page,int row){
         Pageable pageable=new PageRequest(page-1,row);
@@ -132,14 +138,38 @@ public class CertificateService {
         if (certificate.getCardid()!=null)certificate.setCardid(this.desService.encrypt(certificate.getCardid()));//添加时加密身份证好
         try {
             if (certificate.getBirthdate() != null)
-                certificate.setBirthdate(tomilliseconds(certificate.getBirthdate()));//将出生日期转成毫秒数
+                certificate.setBirthdate(tomillisecond(certificate.getBirthdate()));//将出生日期转成毫秒数
             if (certificate.getApprovalofdate() != null)
-                certificate.setApprovalofdate(tomilliseconds(certificate.getApprovalofdate()));//将批准日期转成毫秒数
+                certificate.setApprovalofdate(tomillisecond(certificate.getApprovalofdate()));//将批准日期转成毫秒数
             if (certificate.getIssuanceoftime() != null)
-                certificate.setIssuanceoftime(tomilliseconds(certificate.getIssuanceoftime()));//将签发时间转成毫秒数
+                certificate.setIssuanceoftime(tomillisecond(certificate.getIssuanceoftime()));//将签发时间转成毫秒数
         }catch (Exception e){
             e.printStackTrace();
         }
         this.certificateRepository.save(certificate);
+    }
+
+    public String tomillisecond(String birthdates)throws Exception{
+        String birthdate=null;
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        birthdate = sdf.parse(birthdates).getTime()+"";//毫秒
+        return birthdate;
+    }
+
+    public Object upcertificate(String id,String certificatename,String name,String cardid,String birthdate,String certificatenumber,String issuanceagencies,String approvalofdate,String issuanceoftime){
+        Certificate certificate=this.certificateRepository.findById(id);
+        if (certificate!=null){
+        certificate.setCertificatename(certificatename);
+        certificate.setName(name);
+        certificate.setCardid(this.desService.encrypt(cardid));
+        certificate.setCertificatenumber(certificatenumber);
+        certificate.setIssuanceagencies(issuanceagencies);
+        certificate.setApprovalofdate(approvalofdate);
+        certificate.setBirthdate(birthdate);
+        certificate.setIssuanceoftime(issuanceoftime);
+        this.certificateRepository.save(certificate);
+        return ErrorCode.SUCCESS;
+        }else
+            return ErrorCode.NOCERTIFICATEID;
     }
 }

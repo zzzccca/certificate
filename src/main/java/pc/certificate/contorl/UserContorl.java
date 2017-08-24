@@ -14,7 +14,6 @@ import pc.certificate.service.UserService;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
-import java.util.EmptyStackException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -150,6 +149,12 @@ public class UserContorl {
             e.printStackTrace();
             return ErrorCode.NULLTEL;
         }
+    }
+
+
+    @RequestMapping("/user/fuzzy")
+    public Object fuzzy(String fuzzy){
+        return this.userService.fuzzy(fuzzy);
     }
 
 

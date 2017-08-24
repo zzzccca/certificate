@@ -3,7 +3,10 @@ package pc.certificate.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pc.certificate.domain.User;
+import pc.certificate.domain.enums.ErrorCode;
 import pc.certificate.reop.UserRepository;
+
+import java.util.List;
 
 /**
  * Created by wu on 17-8-14.
@@ -79,5 +82,22 @@ public class UserService {
 
     public void deluser(String id){
         this.userRepository.delete(id);
+    }
+
+    public Object fuzzy (String fuzzy){
+        if (this.userRepository.findByNameLike(fuzzy).size()!=0){
+            return this.userRepository.findByNameLike(fuzzy);
+        }else if (this.userRepository.findByCardid(this.desService.encrypt(fuzzy))!=null){
+            User user=this.userRepository.findByCardid(this.desService.encrypt(fuzzy));
+            user.setCardid(this.desService.decrypt(user.getCardid()));
+            user.setPhone(this.desService.decrypt(user.getPhone()));
+            return user;
+        }else if (this.userRepository.findByPhone(this.desService.encrypt(fuzzy))!=null){
+            User user=this.userRepository.findByPhone(this.desService.encrypt(fuzzy));
+            user.setCardid(this.desService.decrypt(user.getCardid()));
+            user.setPhone(this.desService.decrypt(user.getPhone()));
+            return user;
+        }else
+            return ErrorCode.NULLTEL;
     }
 }

@@ -56,7 +56,7 @@ public class CertificateContorl {
         return this.certificateService.pageall(page,row);
     }
 
-    @RequestMapping("certificate/uploadexl")
+    @RequestMapping("certificate/uploadexl")//TODO 待测试
     public Object uploadexl(MultipartFile exl){
         if (exl==null) return ErrorCode.NULL;
         String name=exl.getOriginalFilename();
@@ -76,5 +76,16 @@ public class CertificateContorl {
         certificate.setCardid(cardid);
         this.certificateService.addcertificate(certificate);
         return ErrorCode.SUCCESS;
+    }
+
+    @RequestMapping("/certificate/upcertificate")
+    public Object upcertificate(String id,String certificatename,String name,String cardid,String birthdate,String certificatenumber,String issuanceagencies,String approvalofdate,String issuanceoftime){
+    return this.certificateService.upcertificate(id,certificatename,name,cardid,birthdate,certificatenumber,issuanceagencies,approvalofdate,issuanceoftime);
+
+    }
+
+    @RequestMapping("/certificate/fuzzycertificate")//模糊查找证书名
+    public List<Certificate> fuzzycertificate(String certificatename){
+        return this.certificateService.certificatename(certificatename);
     }
 }
