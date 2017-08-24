@@ -40,12 +40,11 @@ public class CertificateService {
     }
 
     public List<Certificate> findbynameandbirthdate(String usercardid,String name){
-        String birthdate=usercardid;
         String birthdates=usercardid.substring(6,14);
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
+        String birthdate=null;
         try {
-        birthdate = sdf.parse(birthdates).getTime()+"";//毫秒
-        }catch (ParseException e){
+            birthdate=this.tomilliseconds(birthdates);
+        }catch (Exception e){
             e.printStackTrace();
         }
         return this.certificateRepository.findByNameAndBirthdate(name,birthdate);
@@ -55,13 +54,13 @@ public class CertificateService {
         Certificate certificate=new Certificate();
         certificate=this.certificateRepository.findById(id);
         if (certificate.getBirthdate()!=null) {
-            certificate.setBirthdate(test(certificate.getBirthdate()));
+            certificate.setBirthdate(todata(certificate.getBirthdate()));
         }
         if (certificate.getApprovalofdate()!=null) {
-            certificate.setApprovalofdate(test(certificate.getApprovalofdate()));
+            certificate.setApprovalofdate(todata(certificate.getApprovalofdate()));
         }
         if (certificate.getIssuanceoftime()!=null) {
-            certificate.setIssuanceoftime(test(certificate.getIssuanceoftime()));
+            certificate.setIssuanceoftime(todata(certificate.getIssuanceoftime()));
         }
 
         return certificate;
@@ -80,11 +79,18 @@ public class CertificateService {
         return this.certificateRepository.findByNameAndCertificatenumberAndCertificatename(name,certificatenumber,certificatename);
     }
 
-    public String test(String milliseconds) {
+    public String todata(String milliseconds) {
         long millisecond=Long.parseLong(milliseconds);
         Date date = new Date(millisecond);
         SimpleDateFormat format = new SimpleDateFormat("yyyy年MM月dd日");
         return format.format(date).toString();
+    }
+
+    public String tomilliseconds(String birthdates)throws Exception{
+        String birthdate=null;
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
+        birthdate = sdf.parse(birthdates).getTime()+"";//毫秒
+        return birthdate;
     }
 
     public Object pageall(int page,int row){
@@ -96,13 +102,13 @@ public class CertificateService {
             list.getContent().get(a).setCardid(newcard);
 
             if (list.getContent().get(a).getBirthdate()!=null) {
-                list.getContent().get(a).setBirthdate(test(list.getContent().get(a).getBirthdate()));
+                list.getContent().get(a).setBirthdate(todata(list.getContent().get(a).getBirthdate()));
             }
             if (list.getContent().get(a).getApprovalofdate()!=null) {
-                list.getContent().get(a).setApprovalofdate(test(list.getContent().get(a).getApprovalofdate()));
+                list.getContent().get(a).setApprovalofdate(todata(list.getContent().get(a).getApprovalofdate()));
             }
             if (list.getContent().get(a).getIssuanceoftime()!=null) {
-                list.getContent().get(a).setIssuanceoftime(test(list.getContent().get(a).getIssuanceoftime()));
+                list.getContent().get(a).setIssuanceoftime(todata(list.getContent().get(a).getIssuanceoftime()));
             }
         }
 
@@ -123,6 +129,17 @@ public class CertificateService {
 
 
     public void addcertificate(Certificate certificate){
+        if (certificate.getCardid()!=null)certificate.setCardid(this.desService.encrypt(certificate.getCardid()));//添加时加密身份证好
+        try {
+            if (certificate.getBirthdate() != null)
+                certificate.setBirthdate(tomilliseconds(certificate.getBirthdate()));//将出生日期转成毫秒数
+            if (certificate.getApprovalofdate() != null)
+                certificate.setApprovalofdate(tomilliseconds(certificate.getApprovalofdate()));//将批准日期转成毫秒数
+            if (certificate.getIssuanceoftime() != null)
+                certificate.setIssuanceoftime(tomilliseconds(certificate.getIssuanceoftime()));//将签发时间转成毫秒数
+        }catch (Exception e){
+            e.printStackTrace();
+        }
         this.certificateRepository.save(certificate);
     }
 }

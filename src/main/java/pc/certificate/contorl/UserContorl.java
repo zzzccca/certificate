@@ -52,16 +52,16 @@ public class UserContorl {
 
     @RequestMapping("/user/zhuce")
     public Object zhuche(String name, String cardid, String phone,String password, String code, HttpServletRequest request) {
-//        Map map = new HashMap();
-//        Map image = new HashMap();
-//        try {
-//            map = this.smsService.checkMsg(phone, code);//验证短信验证码返回的状态码
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//        image = this.imagegenContorl.checkimagecode(request);
-//        if (this.certificateService.findcertificate(name, cardid).size() > 0 && this.userService.finduser(cardid)==null) {
-//            if (map.get("errorcode").equals(200) && image.get("errorcode").equals(200)) {
+        Map map = new HashMap();
+        Map image = new HashMap();
+        try {
+            map = this.smsService.checkMsg(phone, code);//验证短信验证码返回的状态码
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        image = this.imagegenContorl.checkimagecode(request);
+        if (this.certificateService.findcertificate(name, cardid).size() > 0 && this.userService.finduser(cardid)==null) {
+            if (map.get("errorcode").equals(200) && image.get("errorcode").equals(200)) {
                 User user = new User();
                 user.setName(name);
                 user.setCardid(cardid);
@@ -73,13 +73,13 @@ public class UserContorl {
                 idmap.put("errorcode",0);
                 idmap.put("errorinfo",id);
                 return idmap;
-//            } else if (!map.get("errorcode").equals(200)) {
-//                return map;
-//            } else {
-//                return image;
-//            }
-//        } else
-//            return ErrorCode.NOCERTIFICATE;
+            } else if (!map.get("errorcode").equals(200)) {
+                return map;
+            } else {
+                return image;
+            }
+        } else
+            return ErrorCode.NOCERTIFICATE;
     }
 
     @RequestMapping("/user/login")
