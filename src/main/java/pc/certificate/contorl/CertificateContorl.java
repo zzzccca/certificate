@@ -1,10 +1,7 @@
 package pc.certificate.contorl;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import pc.certificate.domain.Certificate;
 import pc.certificate.domain.enums.ErrorCode;
@@ -57,7 +54,7 @@ public class CertificateContorl {
     }
 
     @RequestMapping("certificate/uploadexl")//TODO 待测试
-    public Object uploadexl(MultipartFile exl){
+    public Object uploadexl( @RequestParam("filename") MultipartFile exl){
         if (exl==null) return ErrorCode.NULL;
         String name=exl.getOriginalFilename();
         long size=exl.getSize();
