@@ -22,6 +22,8 @@ public interface UserRepository extends CrudRepository<User,String>{
 
     Page<User> findAll(Pageable pageable);
 
+    List<User> findAll();
+
     @Query("select u from User u where u.name like %?1%")
     List<User> findByNameLike(String name);
 

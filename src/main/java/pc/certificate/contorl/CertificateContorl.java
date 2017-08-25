@@ -53,7 +53,7 @@ public class CertificateContorl {
         return this.certificateService.pageall(page,row);
     }
 
-    @RequestMapping("certificate/uploadexl")//TODO 待测试
+    @RequestMapping("certificate/uploadexl")
     public Object uploadexl( @RequestParam("filename") MultipartFile exl){
         if (exl==null) return ErrorCode.NULL;
         String name=exl.getOriginalFilename();
