@@ -54,9 +54,9 @@ public class AdminService {
                 return ErrorCode.Lastpage;
             }else {
                 Map map=new HashMap();
-                map.put("total",list.getTotalElements());//数据总数
-                map.put("totalpage",list.getTotalPages());//总页数
-                map.put("rows",list.getContent());//分页应该显示的数据
+                map.put("totalElements",list.getTotalElements());//数据总数
+                map.put("totalPages",list.getTotalPages());//总页数
+                map.put("content",list.getContent());//分页应该显示的数据
                 return map;
             }
         }catch (IllegalArgumentException e){
