@@ -23,7 +23,7 @@ public enum ErrorCode {
     ,REPEATNUMBER(3,"该手机号已存在")
     ,NULLTEL(2,"查不到该用户")
     ,NULL(4,"参数为空")
-    ,CONTENTNULL(8,"数据为空")
+    ,CONTENTNULL(8,"查不到该证书")
     ,Firstpage(6,"第一页")
     ,Lastpage(7,"最后一页")
     ,AUTHNUMBERFALSE(5,"手机号错误")

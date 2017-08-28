@@ -19,7 +19,9 @@ public interface CertificateRepository extends CrudRepository<Certificate,String
 
     List<Certificate> findByCardid(String cardid);
 
-    List<Certificate> findByNameAndBirthdate(String name,String birthdate);
+    List<Certificate> findByNameAndBirthdateAndBindingIsNull(String name,String birthdate);
+
+    List<Certificate> findByBinding(String binding);
 
     Certificate findById(String id);
 
@@ -29,4 +31,10 @@ public interface CertificateRepository extends CrudRepository<Certificate,String
 
     @Query("select u from Certificate u where u.certificatename like %?1%")
     List<Certificate> findByCertificatenameLike(String certificatename);
+
+    Page<Certificate> findByCertificatename(Pageable pageable,String certificatename);
+
+    Page<Certificate> findByName(Pageable pageable,String name);
+
+    Page<Certificate> findByCertificatenumber(Pageable pageable,String certificatenumber);
 }

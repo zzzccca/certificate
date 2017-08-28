@@ -49,7 +49,11 @@ public class CertificateService {
         }catch (Exception e){
             e.printStackTrace();
         }
-        return this.certificateRepository.findByNameAndBirthdate(name,birthdate);
+        return this.certificateRepository.findByNameAndBirthdateAndBindingIsNull(name,birthdate);
+    }
+
+    public List<Certificate> findbybinding(String binding){
+        return this.certificateRepository.findByBinding(binding);
     }
 
     public String tomilliseconds(String birthdates)throws Exception{
@@ -63,13 +67,13 @@ public class CertificateService {
         Certificate certificate=new Certificate();
         certificate=this.certificateRepository.findById(id);
         if (certificate.getBirthdate()!=null) {
-            certificate.setBirthdate(todata(certificate.getBirthdate()));
+            certificate.setBirthdate(certificate.getBirthdate());
         }
         if (certificate.getApprovalofdate()!=null) {
-            certificate.setApprovalofdate(todata(certificate.getApprovalofdate()));
+            certificate.setApprovalofdate(certificate.getApprovalofdate());
         }
         if (certificate.getIssuanceoftime()!=null) {
-            certificate.setIssuanceoftime(todata(certificate.getIssuanceoftime()));
+            certificate.setIssuanceoftime(certificate.getIssuanceoftime());
         }
 
         return certificate;
@@ -93,7 +97,7 @@ public class CertificateService {
         return this.certificateRepository.findByNameAndCertificatenumberAndCertificatename(name,certificatenumber,certificatename);
     }
 
-    public String todata(String milliseconds) {
+    public String todata(String milliseconds) {//此功能交付前台完成
         long millisecond=Long.parseLong(milliseconds);
         Date date = new Date(millisecond);
         SimpleDateFormat format = new SimpleDateFormat("yyyy年MM月dd日");
@@ -110,13 +114,13 @@ public class CertificateService {
             list.getContent().get(a).setCardid(newcard);
 
             if (list.getContent().get(a).getBirthdate()!=null) {
-                list.getContent().get(a).setBirthdate(todata(list.getContent().get(a).getBirthdate()));
+                list.getContent().get(a).setBirthdate(list.getContent().get(a).getBirthdate());
             }
             if (list.getContent().get(a).getApprovalofdate()!=null) {
-                list.getContent().get(a).setApprovalofdate(todata(list.getContent().get(a).getApprovalofdate()));
+                list.getContent().get(a).setApprovalofdate(list.getContent().get(a).getApprovalofdate());
             }
             if (list.getContent().get(a).getIssuanceoftime()!=null) {
-                list.getContent().get(a).setIssuanceoftime(todata(list.getContent().get(a).getIssuanceoftime()));
+                list.getContent().get(a).setIssuanceoftime(list.getContent().get(a).getIssuanceoftime());
             }
         }
 
@@ -161,5 +165,36 @@ public class CertificateService {
         return ErrorCode.SUCCESS;
         }else
             return ErrorCode.NOCERTIFICATEID;
+    }
+
+
+    public Object fuzzy (int page,int row,String fuzzy){
+        Pageable pageable=new PageRequest(page-1,row);
+        if (this.certificateRepository.findByCertificatename(pageable,fuzzy).getContent().size()!=0){
+            Page<Certificate> pagecertificate=this.certificateRepository.findByCertificatename(pageable,fuzzy);
+            Iterator<Certificate> ite=pagecertificate.iterator();
+            while(ite.hasNext()){
+                Certificate c=ite.next();
+                c.setCardid(this.desService.decrypt(c.getCardid()));
+            }
+            return pagecertificate;
+        }else if (this.certificateRepository.findByCertificatenumber(pageable,fuzzy).getContent().size()!=0){
+            Page<Certificate> pagecertificate=this.certificateRepository.findByCertificatenumber(pageable,fuzzy);
+            Iterator<Certificate> ite=pagecertificate.iterator();
+            while(ite.hasNext()){
+                Certificate c=ite.next();
+                c.setCardid(this.desService.decrypt(c.getCardid()));
+            }
+            return pagecertificate;
+        }else if (this.certificateRepository.findByName(pageable,fuzzy).getContent().size()!=0){
+            Page<Certificate> pagecertificate=this.certificateRepository.findByName(pageable,fuzzy);
+            Iterator<Certificate> ite=pagecertificate.iterator();
+            while(ite.hasNext()){
+                Certificate c=ite.next();
+                c.setCardid(this.desService.decrypt(c.getCardid()));
+            }
+            return pagecertificate;
+        }else
+            return ErrorCode.CONTENTNULL;
     }
 }

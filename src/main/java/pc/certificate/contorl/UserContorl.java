@@ -9,6 +9,7 @@ import pc.certificate.domain.Certificate;
 import pc.certificate.domain.User;
 import pc.certificate.domain.enums.ErrorCode;
 import pc.certificate.service.CertificateService;
+import pc.certificate.service.DesService;
 import pc.certificate.service.SmsService;
 import pc.certificate.service.UserService;
 
@@ -34,6 +35,8 @@ public class UserContorl {
     @Autowired
     private ImagegenContorl imagegenContorl;
 
+    @Autowired
+    private DesService desService;
 
     @Autowired
     private CertificateService certificateService;
@@ -114,21 +117,27 @@ public class UserContorl {
     }
 
     @RequestMapping("/user/uppassword")
-    public Object uppassward(String id, String cardid, String code, String phone, String password, HttpServletRequest request) {
+    public ErrorCode uppassword(String id,String password){
+        this.userService.uppassword(id,password);
+        return ErrorCode.SUCCESS;
+    }
 
-        User user = this.userService.findone(id);
-        if (user.getCardid().equals(cardid)) {
+    @RequestMapping("/user/forgetpassword")
+    public Object forgetpassward(String cardid, String code, String password, HttpServletRequest request) {
 
+        User user = this.userService.finduser(cardid);
+        if (user!=null) {
+            String newphone=this.desService.decrypt(user.getPhone());
             Map map = new HashMap();
             Map image = new HashMap();
             try {
-                map = this.smsService.checkMsg(phone, code);//验证短信验证码返回的状态码
+                map = this.smsService.checkMsg(newphone, code);//验证短信验证码返回的状态码
             } catch (IOException e) {
                 e.printStackTrace();
             }
             image = this.imagegenContorl.checkimagecode(request);//图形验证码返回的状态码
             if (map.get("errorcode").equals(200) && image.get("errorcode").equals(200)) {
-                this.userService.uppassword(id, password);
+                this.userService.uppassword(user.getId(), password);
                 return ErrorCode.SUCCESS;
             } else if (!map.get("errorcode").equals(200)) {
                 return map;
@@ -138,6 +147,14 @@ public class UserContorl {
         }
         else
             return ErrorCode.NOCARD;
+    }
+
+    @RequestMapping("/user/checkcode")
+    public Object checkcode(String cardid){
+        User user = this.userService.finduser(cardid);
+        String newphone=this.desService.decrypt(user.getPhone());
+        this.smscode(newphone);
+        return ErrorCode.SUCCESS;
     }
 
     @RequestMapping("/user/delete")

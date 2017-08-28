@@ -11,6 +11,7 @@ import pc.certificate.service.UploadexlService;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
+import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 /**
  * Created by wu on 17-8-18.
@@ -32,13 +33,27 @@ public class CertificateContorl {
         return this.certificateService.findbynameandbirthdate(usercardid,name);
     }
 
+    @RequestMapping("/certificate/mycertificate")
+    public List<Certificate> mycertificate(String userid){
+        return this.certificateService.findbybinding(userid);
+    }
+
     @RequestMapping("/certificate/erweima")
-    public Object findbyid(HttpServletRequest request,String id){
+    public Object erweima(HttpServletRequest request,String id){
         Certificate certificate=new Certificate();
         certificate=this.certificateService.findbyid(id);
 
         if (certificate!=null) {
             this.enquiriesService.addenquiries(request,certificate.getCertificatenumber(),certificate.getName(),certificate.getCertificatename());
+            return certificate;
+        }else
+            return ErrorCode.NOCERTIFICATEID;
+    }
+
+    @RequestMapping("/certificate/findbyid")
+    public Object findbyid(String id){
+        Certificate certificate=this.certificateService.findbyid(id);
+        if (certificate!=null){
             return certificate;
         }else
             return ErrorCode.NOCERTIFICATEID;
@@ -94,5 +109,11 @@ public class CertificateContorl {
     @RequestMapping("/certificate/fuzzycertificate")//模糊查找证书名
     public List<Certificate> fuzzycertificate(String certificatename){
         return this.certificateService.certificatename(certificatename);
+    }
+
+    @RequestMapping("/certificate/blur")
+    public Object blur(int page,int row,String fuzzy){
+        return this.certificateService.fuzzy(page,row,fuzzy);
+
     }
 }
