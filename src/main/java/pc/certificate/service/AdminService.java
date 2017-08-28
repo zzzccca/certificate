@@ -44,6 +44,11 @@ public class AdminService {
             list.getContent().get(a).setPhone(newphone);
         }
 
+        return returnpage(page,list);
+    }
+
+
+    public Object returnpage(int page, Page list){
         try {
             if (page>list.getTotalPages()){
                 return ErrorCode.Lastpage;

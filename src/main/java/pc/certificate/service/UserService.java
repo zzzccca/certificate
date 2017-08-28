@@ -1,11 +1,15 @@
 package pc.certificate.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import pc.certificate.domain.User;
 import pc.certificate.domain.enums.ErrorCode;
 import pc.certificate.reop.UserRepository;
 
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -84,19 +88,35 @@ public class UserService {
         this.userRepository.delete(id);
     }
 
-    public Object fuzzy (String fuzzy){
-        if (this.userRepository.findByNameLike(fuzzy).size()!=0){
-            return this.userRepository.findByNameLike(fuzzy);
-        }else if (this.userRepository.findByCardid(this.desService.encrypt(fuzzy))!=null){
-            User user=this.userRepository.findByCardid(this.desService.encrypt(fuzzy));
-            user.setCardid(this.desService.decrypt(user.getCardid()));
-            user.setPhone(this.desService.decrypt(user.getPhone()));
-            return user;
-        }else if (this.userRepository.findByPhone(this.desService.encrypt(fuzzy))!=null){
-            User user=this.userRepository.findByPhone(this.desService.encrypt(fuzzy));
-            user.setCardid(this.desService.decrypt(user.getCardid()));
-            user.setPhone(this.desService.decrypt(user.getPhone()));
-            return user;
+    public Object fuzzy (int page,int row,String fuzzy){
+        Pageable pageable=new PageRequest(page-1,row);
+        if (this.userRepository.findByNameLike(pageable,fuzzy).getContent().size()!=0){
+            Page<User> pageuser=this.userRepository.findByNameLike(pageable,fuzzy);
+            Iterator<User> ite=pageuser.iterator();
+            while(ite.hasNext()){
+                User u=ite.next();
+                u.setPhone(this.desService.decrypt(u.getPhone()));
+                u.setCardid(this.desService.decrypt(u.getCardid()));
+            }
+            return pageuser;
+        }else if (this.userRepository.findByCardid(pageable,this.desService.encrypt(fuzzy)).getContent().size()!=0){
+            Page<User> pageuser=this.userRepository.findByCardid(pageable,this.desService.encrypt(fuzzy));
+            Iterator<User> ite=pageuser.iterator();
+            while(ite.hasNext()){
+                User u=ite.next();
+                u.setPhone(this.desService.decrypt(u.getPhone()));
+                u.setCardid(this.desService.decrypt(u.getCardid()));
+            }
+            return pageuser;
+        }else if (this.userRepository.findByPhone(pageable,this.desService.encrypt(fuzzy)).getContent().size()!=0){
+            Page<User> pageuser=this.userRepository.findByPhone(pageable,this.desService.encrypt(fuzzy));
+            Iterator<User> ite=pageuser.iterator();
+            while(ite.hasNext()){
+                User u=ite.next();
+                u.setPhone(this.desService.decrypt(u.getPhone()));
+                u.setCardid(this.desService.decrypt(u.getCardid()));
+            }
+            return pageuser;
         }else
             return ErrorCode.NULLTEL;
     }

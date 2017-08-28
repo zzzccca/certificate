@@ -153,8 +153,8 @@ public class UserContorl {
 
 
     @RequestMapping("/user/fuzzy")
-    public Object fuzzy(String fuzzy){
-        return this.userService.fuzzy(fuzzy);
+    public Object fuzzy(int page,int row,String fuzzy){
+        return this.userService.fuzzy(page,row,fuzzy);
     }
 
 

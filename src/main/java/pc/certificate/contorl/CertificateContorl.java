@@ -6,8 +6,10 @@ import org.springframework.web.multipart.MultipartFile;
 import pc.certificate.domain.Certificate;
 import pc.certificate.domain.enums.ErrorCode;
 import pc.certificate.service.CertificateService;
+import pc.certificate.service.EnquiriesService;
 import pc.certificate.service.UploadexlService;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 /**
@@ -22,17 +24,21 @@ public class CertificateContorl {
     @Autowired
     private UploadexlService uploadexlService;
 
+    @Autowired
+    private EnquiriesService enquiriesService;
+
     @RequestMapping("/certificate/fuzzy")
     public List<Certificate> fuzzy(String usercardid,String name){
         return this.certificateService.findbynameandbirthdate(usercardid,name);
     }
 
     @RequestMapping("/certificate/erweima")
-    public Object findbyid(String id){
+    public Object findbyid(HttpServletRequest request,String id){
         Certificate certificate=new Certificate();
         certificate=this.certificateService.findbyid(id);
 
         if (certificate!=null) {
+            this.enquiriesService.addenquiries(request,certificate.getCertificatenumber(),certificate.getName(),certificate.getCertificatename());
             return certificate;
         }else
             return ErrorCode.NOCERTIFICATEID;
@@ -44,8 +50,12 @@ public class CertificateContorl {
     }
 
     @RequestMapping("/certificate/findbycertificate")
-    public Object findbycertificate(String name,String certificatenumber,String certificatename){
-        return this.certificateService.findbycertificate(name,certificatenumber,certificatename);
+    public Object findbycertificate(HttpServletRequest request,String name, String certificatenumber, String certificatename){
+        Certificate certificate= this.certificateService.findbycertificate(name,certificatenumber,certificatename);
+        if (certificate!= null){
+            this.enquiriesService.addenquiries(request,certificate.getCertificatenumber(),certificate.getName(),certificate.getCertificatename());
+        }
+        return certificate;
     }
 
     @RequestMapping("/certificate/pageall")

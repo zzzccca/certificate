@@ -9,7 +9,6 @@ import pc.certificate.domain.Certificate;
 import pc.certificate.domain.enums.ErrorCode;
 import pc.certificate.reop.CertificateRepository;
 
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -24,6 +23,9 @@ public class CertificateService {
 
     @Autowired
     private DesService desService;
+
+    @Autowired
+    private AdminService adminService;
 
     public List<Certificate> findcertificate(String name, String cardid){
         String descardid=this.desService.encrypt(cardid);
@@ -118,19 +120,7 @@ public class CertificateService {
             }
         }
 
-        try {
-            if (page>list.getTotalPages()){
-                return ErrorCode.Lastpage;
-            }else {
-                Map map=new HashMap();
-                map.put("total",list.getTotalElements());//数据总数
-                map.put("totalpage",list.getTotalPages());//总页数
-                map.put("rows",list.getContent());//分页应该显示的数据
-                return map;
-            }
-        }catch (IllegalArgumentException e){
-            return ErrorCode.Firstpage;
-        }
+        return this.adminService.returnpage(page,list);
     }
 
 
