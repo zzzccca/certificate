@@ -27,9 +27,4 @@ public class AdminContorl {
         }else
             return ErrorCode.NAMEORPWDERROR;
     }
-
-    @RequestMapping("/admin/pageall")
-    public Object pageall(int page,int row){
-        return this.adminService.pageall(page,row);
-    }
 }

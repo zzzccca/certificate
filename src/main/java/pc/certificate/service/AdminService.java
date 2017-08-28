@@ -33,19 +33,6 @@ public class AdminService {
         return this.adminRepository.findByAccountAndPassword(account,password);
     }
 
-    public Object pageall(int page,int row){
-        Pageable pageable=new PageRequest(page-1,row);
-        Page<User> list=this.userRepository.findAll(pageable);
-
-        for (int a=0;a<list.getContent().size();a++){
-            String newcard=this.desService.decrypt(list.getContent().get(a).getCardid());
-            String newphone=this.desService.decrypt(list.getContent().get(a).getPhone());
-            list.getContent().get(a).setCardid(newcard);
-            list.getContent().get(a).setPhone(newphone);
-        }
-
-        return returnpage(page,list);
-    }
 
 
     public Object returnpage(int page, Page list){
