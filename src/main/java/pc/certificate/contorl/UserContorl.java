@@ -54,7 +54,7 @@ public class UserContorl {
 
     @RequestMapping("/user/zhuce")
     public Object zhuche(String name, String cardid, String phone,String password, String code, HttpServletRequest request) {
-//        Map map = new HashMap();
+//        Map map = new HashMap();//TODO 用来测试  正式上线要恢复条件判断
 //        Map image = new HashMap();
 //        try {
 //            map = this.smsService.checkMsg(phone, code);//验证短信验证码返回的状态码

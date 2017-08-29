@@ -10,7 +10,7 @@ import java.io.Serializable;
 /**
  * Created by wu on 17-8-16.
  */
-@Bostype("U05")
+@Bostype("A05")
 @Entity
 @Table(name = "c_admin")
 public class Admin extends BaseEntity implements Serializable {

@@ -38,7 +38,10 @@ public class AdminService {
     public Object returnpage(int page, Page list){
         try {
             if (page>list.getTotalPages()){
-                return ErrorCode.Lastpage;
+                Map map=new HashMap();
+                map.put("totalPages",list.getTotalPages());//总页数
+                map.put("error","最后一页");
+                return map;
             }else {
                 Map map=new HashMap();
                 map.put("totalElements",list.getTotalElements());//数据总数
