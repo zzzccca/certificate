@@ -16,7 +16,6 @@ import java.util.List;
 public interface UserRepository extends CrudRepository<User,String>{
     User findByCardid(String cardid);
 
-    Page<User> findByCardid(Pageable pageable,String cardid);
 
     User findByCardidAndPassword(String cardid,String password);
 
@@ -26,9 +25,6 @@ public interface UserRepository extends CrudRepository<User,String>{
 
     List<User> findAll();
 
-    @Query("select u from User u where u.name like %?1%")
-    Page<User> findByNameLike(Pageable pageable,String name);
-
-    Page<User> findByPhone(Pageable pageable,String phone);
-
+    @Query("select u from User u where u.name like %?1% or u.cardid = ?2 or u.phone = ?2")
+    Page<User> findByNameLikeOrCardidOrPhone(Pageable pageable,String plain,String encrypted);
 }
