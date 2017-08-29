@@ -32,9 +32,6 @@ public interface CertificateRepository extends CrudRepository<Certificate,String
     @Query("select u from Certificate u where u.certificatename like %?1%")
     List<Certificate> findByCertificatenameLike(String certificatename);
 
-    Page<Certificate> findByCertificatename(Pageable pageable,String certificatename);
-
-    Page<Certificate> findByName(Pageable pageable,String name);
-
-    Page<Certificate> findByCertificatenumber(Pageable pageable,String certificatenumber);
+    @Query("select u from Certificate u where u.certificatename = ?1 or u.name = ?1 or u.certificatenumber = ?1")
+    Page<Certificate> findByCertificatenameOrNameOrCertificatenumber(Pageable pageable,String plain);
 }

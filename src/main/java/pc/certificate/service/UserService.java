@@ -97,7 +97,7 @@ public class UserService {
     public Object fuzzy(int page, int row, String fuzzy) {
         Pageable pageable = new PageRequest(page - 1, row);
         Page<User> pageuser=null;
-        if (StringUtils.hasText(fuzzy)) {
+        if (StringUtils.hasText(fuzzy)) {//如果有过滤信息
             String newfuzzy=this.desService.encrypt(fuzzy);
                 pageuser = this.userRepository.findByNameLikeOrCardidOrPhone(pageable, fuzzy,newfuzzy);
                 Iterator<User> ite = pageuser.iterator();

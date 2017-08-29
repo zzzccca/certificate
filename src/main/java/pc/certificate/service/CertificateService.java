@@ -5,6 +5,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 import pc.certificate.domain.Certificate;
 import pc.certificate.domain.enums.ErrorCode;
 import pc.certificate.reop.CertificateRepository;
@@ -108,29 +109,6 @@ public class CertificateService {
     }
 
 
-    public Object pageall(int page,int row){
-        Pageable pageable=new PageRequest(page-1,row);
-        Page<Certificate> list=this.certificateRepository.findAll(pageable);
-
-        for (int a=0;a<list.getContent().size();a++){
-            String newcard=this.desService.decrypt(list.getContent().get(a).getCardid());
-            list.getContent().get(a).setCardid(newcard);
-
-            if (list.getContent().get(a).getBirthdate()!=null) {
-                list.getContent().get(a).setBirthdate(list.getContent().get(a).getBirthdate());
-            }
-            if (list.getContent().get(a).getApprovalofdate()!=null) {
-                list.getContent().get(a).setApprovalofdate(list.getContent().get(a).getApprovalofdate());
-            }
-            if (list.getContent().get(a).getIssuanceoftime()!=null) {
-                list.getContent().get(a).setIssuanceoftime(list.getContent().get(a).getIssuanceoftime());
-            }
-        }
-
-        return this.adminService.returnpage(page,list);
-    }
-
-
     public void addcertificate(Certificate certificate){
         if (certificate.getCardid()!=null)certificate.setCardid(this.desService.encrypt(certificate.getCardid()));//添加时加密身份证好
         try {
@@ -173,31 +151,23 @@ public class CertificateService {
 
     public Object fuzzy (int page,int row,String fuzzy){
         Pageable pageable=new PageRequest(page-1,row);
-        if (this.certificateRepository.findByCertificatename(pageable,fuzzy).getContent().size()!=0){
-            Page<Certificate> pagecertificate=this.certificateRepository.findByCertificatename(pageable,fuzzy);
-            Iterator<Certificate> ite=pagecertificate.iterator();
-            while(ite.hasNext()){
-                Certificate c=ite.next();
+        if (StringUtils.hasText(fuzzy)) {//如果有过滤信息
+            Page<Certificate> pagecertificate = this.certificateRepository.findByCertificatenameOrNameOrCertificatenumber(pageable, fuzzy);
+            Iterator<Certificate> ite = pagecertificate.iterator();
+            while (ite.hasNext()) {
+                Certificate c = ite.next();
                 c.setCardid(this.desService.decrypt(c.getCardid()));
             }
             return pagecertificate;
-        }else if (this.certificateRepository.findByCertificatenumber(pageable,fuzzy).getContent().size()!=0){
-            Page<Certificate> pagecertificate=this.certificateRepository.findByCertificatenumber(pageable,fuzzy);
-            Iterator<Certificate> ite=pagecertificate.iterator();
-            while(ite.hasNext()){
-                Certificate c=ite.next();
-                c.setCardid(this.desService.decrypt(c.getCardid()));
+        }else {
+            Page<Certificate> list=this.certificateRepository.findAll(pageable);
+
+            for (int a=0;a<list.getContent().size();a++){
+                String newcard=this.desService.decrypt(list.getContent().get(a).getCardid());
+                list.getContent().get(a).setCardid(newcard);
             }
-            return pagecertificate;
-        }else if (this.certificateRepository.findByName(pageable,fuzzy).getContent().size()!=0){
-            Page<Certificate> pagecertificate=this.certificateRepository.findByName(pageable,fuzzy);
-            Iterator<Certificate> ite=pagecertificate.iterator();
-            while(ite.hasNext()){
-                Certificate c=ite.next();
-                c.setCardid(this.desService.decrypt(c.getCardid()));
-            }
-            return pagecertificate;
-        }else
-            return ErrorCode.CONTENTNULL;
+
+            return this.adminService.returnpage(page,list);
+        }
     }
 }

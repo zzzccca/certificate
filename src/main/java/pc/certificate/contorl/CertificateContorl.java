@@ -73,11 +73,6 @@ public class CertificateContorl {
         return certificate;
     }
 
-    @RequestMapping("/certificate/pageall")
-    public Object pageall(int page,int row){
-        return this.certificateService.pageall(page,row);
-    }
-
     @RequestMapping("certificate/uploadexl")
     public Object uploadexl( @RequestParam("filename") MultipartFile exl){
         if (exl==null) return ErrorCode.NULL;
