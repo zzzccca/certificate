@@ -34,7 +34,7 @@ public class CertificateContorl {
     }
 
     @RequestMapping("/certificate/mycertificate")
-    public List<Certificate> mycertificate(String userid){
+    public Object mycertificate(String userid){
         return this.certificateService.findbybinding(userid);
     }
 
