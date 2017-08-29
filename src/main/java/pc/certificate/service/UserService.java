@@ -95,46 +95,43 @@ public class UserService {
     public Object fuzzy(int page, int row, String fuzzy) {
         Pageable pageable = new PageRequest(page - 1, row);
 
+        Page<User> pageuser = this.userRepository.findAll(pageable);
+
+        for (int a = 0; a < pageuser.getContent().size(); a++) {
+            String newcard = this.desService.decrypt(pageuser.getContent().get(a).getCardid());
+            String newphone = this.desService.decrypt(pageuser.getContent().get(a).getPhone());
+            pageuser.getContent().get(a).setCardid(newcard);
+            pageuser.getContent().get(a).setPhone(newphone);
+        }
+
         if (StringUtils.hasText(fuzzy)) {
             if (this.userRepository.findByNameLike(pageable, fuzzy).getContent().size() != 0) {
-                Page<User> pageuser = this.userRepository.findByNameLike(pageable, fuzzy);
+                pageuser = this.userRepository.findByNameLike(pageable, fuzzy);
                 Iterator<User> ite = pageuser.iterator();
                 while (ite.hasNext()) {
                     User u = ite.next();
                     u.setPhone(this.desService.decrypt(u.getPhone()));
                     u.setCardid(this.desService.decrypt(u.getCardid()));
                 }
-                return pageuser;
             } else if (this.userRepository.findByCardid(pageable, this.desService.encrypt(fuzzy)).getContent().size() != 0) {
-                Page<User> pageuser = this.userRepository.findByCardid(pageable, this.desService.encrypt(fuzzy));
+                pageuser = this.userRepository.findByCardid(pageable, this.desService.encrypt(fuzzy));
                 Iterator<User> ite = pageuser.iterator();
                 while (ite.hasNext()) {
                     User u = ite.next();
                     u.setPhone(this.desService.decrypt(u.getPhone()));
                     u.setCardid(this.desService.decrypt(u.getCardid()));
                 }
-                return pageuser;
             } else if (this.userRepository.findByPhone(pageable, this.desService.encrypt(fuzzy)).getContent().size() != 0) {
-                Page<User> pageuser = this.userRepository.findByPhone(pageable, this.desService.encrypt(fuzzy));
+                pageuser = this.userRepository.findByPhone(pageable, this.desService.encrypt(fuzzy));
                 Iterator<User> ite = pageuser.iterator();
                 while (ite.hasNext()) {
                     User u = ite.next();
                     u.setPhone(this.desService.decrypt(u.getPhone()));
                     u.setCardid(this.desService.decrypt(u.getCardid()));
                 }
-                return pageuser;
-            } else
-                return ErrorCode.NULLTEL;
-        } else {
-            Page<User> list = this.userRepository.findAll(pageable);
-
-            for (int a = 0; a < list.getContent().size(); a++) {
-                String newcard = this.desService.decrypt(list.getContent().get(a).getCardid());
-                String newphone = this.desService.decrypt(list.getContent().get(a).getPhone());
-                list.getContent().get(a).setCardid(newcard);
-                list.getContent().get(a).setPhone(newphone);
             }
-            return this.adminService.returnpage(page, list);
         }
+
+        return this.adminService.returnpage(page, pageuser);
     }
 }
