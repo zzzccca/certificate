@@ -55,11 +55,15 @@ public class EnquiriesService {
         return request.getRemoteAddr();
     }
 
-    public Object pageall(int page,int row){
-        Pageable pageable=new PageRequest(page-1,row);
-        Page<Enquiries> list=this.enquiriesRepository.findAll(pageable);
-
-        return this.adminService.returnpage(page,list);
+    public Object pageall(int page,int row,String fuzzy) {
+            Pageable pageable = new PageRequest(page - 1, row);
+        if (fuzzy != null && fuzzy != "") {
+            Page<Enquiries> pageenquiries=this.enquiriesRepository.findByNameOrCertificatenumberOrCertificatename(pageable,fuzzy);
+            return pageenquiries;
+        }else {
+            Page<Enquiries> list = this.enquiriesRepository.findAll(pageable);
+            return this.adminService.returnpage(page, list);
+        }
     }
 
 

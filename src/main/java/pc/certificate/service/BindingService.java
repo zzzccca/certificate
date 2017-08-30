@@ -10,6 +10,7 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 import pc.certificate.domain.Binding;
 import pc.certificate.domain.Certificate;
+import pc.certificate.domain.User;
 import pc.certificate.domain.enums.ErrorCode;
 import pc.certificate.reop.BindingRepository;
 import pc.certificate.reop.CertificateRepository;
@@ -30,6 +31,12 @@ public class BindingService {
     private AdminService adminService;
 
     @Autowired
+    private CertificateService certificateService;
+
+    @Autowired
+    private UserService userService;
+
+    @Autowired
     private CertificateRepository certificateRepository;
 
     @Autowired
@@ -42,24 +49,37 @@ public class BindingService {
 
         String imgname=this.useIdGenerate.createid("img");//生成图片保存在本地的名称
         String file=image+imgname;//设置文件保存的路劲
-
         Files.copy(img.getInputStream(), Paths.get(file));//将文件流copy到设置路径下
+
+        Certificate certificate=this.certificateService.findbyid(certificateid);
+        String certificatename=certificate.getCertificatename();
+        String certificatenumber=certificate.getCertificatenumber();
+
+        User user=this.userService.findone(userid);
+        String bindingname=user.getName();
 
         Binding binding=new Binding();
         binding.setBindingimage(imgname);
         binding.setCertificateid(certificateid);
         binding.setUserid(userid);
+        binding.setCertificatename(certificatename);
+        binding.setCertificatenumber(certificatenumber);
+        binding.setName(bindingname);
         binding.setType("待审核");
         this.bindingRepository.save(binding);
         return ErrorCode.SUCCESS;
     }
 
 
-    public Object viewbinding(int page,int row,String type) {
+    public Object viewbinding(int page,int row,String type,String fuzzy) {
         Pageable pageable = new PageRequest(page - 1, row);
         Page<Binding> pagebinding = null;
-        if (StringUtils.hasText(type)) {
+        if (StringUtils.hasText(type) && StringUtils.hasText(fuzzy)){
+            pagebinding = this.bindingRepository.findByNameOrCertificatenumberOrCertificatenameAndType(pageable, fuzzy,type);
+        }else if (StringUtils.hasText(type)) {
             pagebinding = this.bindingRepository.findByTypeOrderByCreatetimeDesc(pageable, type);
+        } else if (StringUtils.hasText(fuzzy)){
+            pagebinding = this.bindingRepository.findByNameOrCertificatenumberOrCertificatename(pageable, fuzzy);
         } else {
             pagebinding = this.bindingRepository.findAllByOrderByCreatetimeDesc(pageable);
         }
@@ -79,9 +99,10 @@ public class BindingService {
         return ErrorCode.SUCCESS;
     }
 
-    public ErrorCode reject(String bindingid){
+    public ErrorCode reject(String bindingid,String reject){
         Binding binding=this.bindingRepository.findById(bindingid);
         binding.setType("已驳回");
+        binding.setRejuct(reject);
         this.bindingRepository.save(binding);
 
         return ErrorCode.SUCCESS;

@@ -70,15 +70,7 @@ public class CertificateService {
     public Certificate findbyid(String id){//二维码扫描
         Certificate certificate=new Certificate();
         certificate=this.certificateRepository.findById(id);
-        if (certificate.getBirthdate()!=null) {
-            certificate.setBirthdate(certificate.getBirthdate());
-        }
-        if (certificate.getApprovalofdate()!=null) {
-            certificate.setApprovalofdate(certificate.getApprovalofdate());
-        }
-        if (certificate.getIssuanceoftime()!=null) {
-            certificate.setIssuanceoftime(certificate.getIssuanceoftime());
-        }
+        certificate.setCardid(this.desService.decrypt(certificate.getCardid()));
 
         return certificate;
     }

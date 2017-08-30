@@ -30,8 +30,8 @@ public class BindingContorl {
     }
 
     @RequestMapping("/binding/viewbinding")
-    public Object viewbinding(int page,int row,String type){
-        return this.bindingService.viewbinding(page,row,type);
+    public Object viewbinding(int page,int row,String type,String fuzzy){
+        return this.bindingService.viewbinding(page,row,type,fuzzy);
     }
 
 
@@ -41,8 +41,8 @@ public class BindingContorl {
     }
 
     @RequestMapping("/binding/reject")
-    public ErrorCode reject(String bindingid){
-        return this.bindingService.reject(bindingid);
+    public ErrorCode reject(String bindingid,String reject){
+        return this.bindingService.reject(bindingid,reject);
     }
 
 }
