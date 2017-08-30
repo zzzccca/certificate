@@ -68,11 +68,7 @@ public class CertificateService {
     }
 
     public Certificate findbyid(String id){//二维码扫描
-        Certificate certificate=new Certificate();
-        certificate=this.certificateRepository.findById(id);
-        certificate.setCardid(this.desService.decrypt(certificate.getCardid()));
-
-        return certificate;
+        return this.certificateRepository.findById(id);
     }
 
     public List<Certificate> findbycertificatename(String certificatename){

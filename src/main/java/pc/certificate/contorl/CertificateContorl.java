@@ -6,6 +6,7 @@ import org.springframework.web.multipart.MultipartFile;
 import pc.certificate.domain.Certificate;
 import pc.certificate.domain.enums.ErrorCode;
 import pc.certificate.service.CertificateService;
+import pc.certificate.service.DesService;
 import pc.certificate.service.EnquiriesService;
 import pc.certificate.service.UploadexlService;
 
@@ -27,6 +28,9 @@ public class CertificateContorl {
     @Autowired
     private EnquiriesService enquiriesService;
 
+    @Autowired
+    private DesService desService;
+
     @RequestMapping("/certificate/fuzzy")
     public List<Certificate> fuzzy(String usercardid,String name){
         return this.certificateService.findbynameandbirthdate(usercardid,name);
@@ -41,6 +45,7 @@ public class CertificateContorl {
     public Object erweima(HttpServletRequest request,String id){
         Certificate certificate=new Certificate();
         certificate=this.certificateService.findbyid(id);
+        certificate.setCardid(this.desService.decrypt(certificate.getCardid()));
 
         if (certificate!=null) {
             this.enquiriesService.addenquiries(request,certificate.getCertificatenumber(),certificate.getName(),certificate.getCertificatename());
@@ -53,6 +58,7 @@ public class CertificateContorl {
     public Object findbyid(String id){
         Certificate certificate=this.certificateService.findbyid(id);
         if (certificate!=null){
+        certificate.setCardid(this.desService.decrypt(certificate.getCardid()));
             return certificate;
         }else
             return ErrorCode.NOCERTIFICATEID;
@@ -74,10 +80,13 @@ public class CertificateContorl {
 
     @RequestMapping("certificate/uploadexl")
     public Object uploadexl(@RequestParam("filename") MultipartFile exl) {
-        if (exl == null) return ErrorCode.NULL;
         String name = exl.getOriginalFilename();
         long size = exl.getSize();
-        if (name == null || ("").equals(name) && size == 0) return ErrorCode.NULL;//以上4行皆是判断文件是否为空
+        if (exl == null) {
+            return ErrorCode.NULL;
+        } else if(name == null || ("").equals(name) || size == 0){
+         return ErrorCode.NULL;//以上4行皆是判断文件是否为空
+        }
         boolean a = name.matches("^.+\\.(?i)(xls|xlsx)$");//正则匹配文件后缀
         if (a == false) {
             return ErrorCode.ERRORFILE;

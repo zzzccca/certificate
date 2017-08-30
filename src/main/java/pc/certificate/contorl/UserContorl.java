@@ -106,8 +106,13 @@ public class UserContorl {
 
 
     @RequestMapping("/user/findone")
-    public User upphone(String id){
-       return this.userService.findone(id);
+    public User findone(String id){
+        User user=this.userService.findone(id);
+        String phonedes = this.desService.decrypt(user.getPhone());
+        String cardiddes = this.desService.decrypt(user.getCardid());
+        user.setPhone(phonedes);
+        user.setCardid(cardiddes);
+       return user;
     }
 
     @RequestMapping("/user/upphone")

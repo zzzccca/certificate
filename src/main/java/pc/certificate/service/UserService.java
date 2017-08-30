@@ -49,12 +49,7 @@ public class UserService {
     }
 
     public User findone(String id) {
-        User user = this.userRepository.findById(id);
-        String phonedes = this.desService.decrypt(user.getPhone());
-        String cardiddes = this.desService.decrypt(user.getCardid());
-        user.setPhone(phonedes);
-        user.setCardid(cardiddes);
-        return user;
+        return this.userRepository.findById(id);
     }
 
     public User upphone(String id, String phone) {
