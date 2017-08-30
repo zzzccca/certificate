@@ -11,7 +11,6 @@ import pc.certificate.service.UploadexlService;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
-import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 /**
  * Created by wu on 17-8-18.
@@ -74,17 +73,22 @@ public class CertificateContorl {
     }
 
     @RequestMapping("certificate/uploadexl")
-    public Object uploadexl( @RequestParam("filename") MultipartFile exl){
-        if (exl==null) return ErrorCode.NULL;
-        String name=exl.getOriginalFilename();
-        long size=exl.getSize();
-        if(name==null || ("").equals(name) && size==0) return ErrorCode.NULL;//以上4行皆是判断文件是否为空
-        try {
-        this.uploadexlService.getexl(exl,name);
-        }catch (Exception e){
-            e.printStackTrace();
+    public Object uploadexl(@RequestParam("filename") MultipartFile exl) {
+        if (exl == null) return ErrorCode.NULL;
+        String name = exl.getOriginalFilename();
+        long size = exl.getSize();
+        if (name == null || ("").equals(name) && size == 0) return ErrorCode.NULL;//以上4行皆是判断文件是否为空
+        boolean a = name.matches("^.+\\.(?i)(xls|xlsx)$");//正则匹配文件后缀
+        if (a == false) {
+            return ErrorCode.ERRORFILE;
+        } else {
+            try {
+                this.uploadexlService.getexl(exl, name);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return ErrorCode.SUCCESS;
         }
-        return ErrorCode.SUCCESS;
     }
 
     @RequestMapping("certificate/addcertificate")
