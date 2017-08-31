@@ -102,7 +102,7 @@ public class BindingService {
     public ErrorCode reject(String bindingid, String reject) {
         Binding binding = this.bindingRepository.findById(bindingid);
         binding.setType("已驳回");
-        binding.setRejuct(reject);
+        binding.setReject(reject);
         this.bindingRepository.save(binding);
 
         return ErrorCode.SUCCESS;

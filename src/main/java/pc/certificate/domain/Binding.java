@@ -22,7 +22,7 @@ public class Binding extends BaseEntity implements Serializable {
     private String certificatename;//证书名
     private String certificatenumber;//证书编号
     private String name;//申请人姓名
-    private String rejuct;//驳回理由
+    private String reject;//驳回理由
 
     public String getCertificateid() {
         return certificateid;
@@ -80,11 +80,11 @@ public class Binding extends BaseEntity implements Serializable {
         this.name = name;
     }
 
-    public String getRejuct() {
-        return rejuct;
+    public String getReject() {
+        return reject;
     }
 
-    public void setRejuct(String rejuct) {
-        this.rejuct = rejuct;
+    public void setReject(String reject) {
+        this.reject = reject;
     }
 }
