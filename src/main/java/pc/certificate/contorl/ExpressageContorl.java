@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+import pc.certificate.domain.Expressage;
 import pc.certificate.domain.enums.ErrorCode;
 import pc.certificate.service.ExpressageService;
 
@@ -41,5 +42,10 @@ public class ExpressageContorl {
     @RequestMapping("/expressage/uptype")
     public ErrorCode uptype() {
         return this.expressageService.uptype();
+    }
+
+    @RequestMapping("/expressage/findone")
+    public Expressage findone(String id) {
+        return this.expressageService.findont(id);
     }
 }

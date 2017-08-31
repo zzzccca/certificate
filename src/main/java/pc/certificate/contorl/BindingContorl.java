@@ -3,6 +3,7 @@ package pc.certificate.contorl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import pc.certificate.domain.Binding;
 import pc.certificate.domain.enums.ErrorCode;
 import pc.certificate.service.BindingService;
 
@@ -43,4 +44,8 @@ public class BindingContorl {
         return this.bindingService.reject(bindingid, reject);
     }
 
+    @RequestMapping("/binding/findone")
+    public Binding findone(String id) {
+        return this.bindingService.findone(id);
+    }
 }

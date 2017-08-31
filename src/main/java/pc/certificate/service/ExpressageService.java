@@ -90,4 +90,8 @@ public class ExpressageService {
         }
         return ErrorCode.SUCCESS;
     }
+
+    public Expressage findont(String id) {
+        return this.expressageRepository.findOne(id);
+    }
 }

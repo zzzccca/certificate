@@ -107,4 +107,8 @@ public class BindingService {
 
         return ErrorCode.SUCCESS;
     }
+
+    public Binding findone(String id) {
+        return this.bindingRepository.findOne(id);
+    }
 }
