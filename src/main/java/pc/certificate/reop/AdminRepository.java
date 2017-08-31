@@ -10,8 +10,8 @@ import pc.certificate.domain.Admin;
  * Created by wu on 17-8-16.
  */
 @Repository
-public interface AdminRepository extends CrudRepository<Admin,String>{
-    Admin findByAccountAndPassword(String account,String password);
+public interface AdminRepository extends CrudRepository<Admin, String> {
+    Admin findByAccountAndPassword(String account, String password);
 
     Page<Admin> findAll(Pageable pageable);
 }

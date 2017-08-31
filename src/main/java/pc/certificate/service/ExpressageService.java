@@ -12,7 +12,6 @@ import pc.certificate.domain.enums.ErrorCode;
 import pc.certificate.reop.ExpressageRepository;
 
 import java.util.List;
-import java.util.concurrent.ThreadPoolExecutor;
 
 /**
  * Created by wu on 17-8-30.
@@ -59,34 +58,34 @@ public class ExpressageService {
         Pageable pageable = new PageRequest(page - 1, row);
         if (StringUtils.hasText(type) && StringUtils.hasText(fuzzy)) {
             return this.expressageRepository.findByNameOrCertificatenumberOrCertificatenameOrOddnumberAndType(pageable, fuzzy, type);
-        }else if (StringUtils.hasText(type)){
-            return this.expressageRepository.findByTypeOrderByCreatetimeDesc(pageable,type);
-        }else if (StringUtils.hasText(fuzzy)){
-            return this.expressageRepository.findByNameOrCertificatenumberOrCertificatenameOrOddnumber(pageable,fuzzy);
-        }else
+        } else if (StringUtils.hasText(type)) {
+            return this.expressageRepository.findByTypeOrderByCreatetimeDesc(pageable, type);
+        } else if (StringUtils.hasText(fuzzy)) {
+            return this.expressageRepository.findByNameOrCertificatenumberOrCertificatenameOrOddnumber(pageable, fuzzy);
+        } else
             return this.expressageRepository.findAllByOrderByCreatetimeDesc(pageable);
     }
 
-    public ErrorCode success(String expressageid,String oddnumber){
-        Expressage expressage=this.expressageRepository.findOne(expressageid);
+    public ErrorCode success(String expressageid, String oddnumber) {
+        Expressage expressage = this.expressageRepository.findOne(expressageid);
         expressage.setOddnumber(oddnumber);
         expressage.setType("待寄");
         this.expressageRepository.save(expressage);
         return ErrorCode.SUCCESS;
     }
 
-    public ErrorCode reject(String expressageid,String reject){
-        Expressage expressage=this.expressageRepository.findOne(expressageid);
+    public ErrorCode reject(String expressageid, String reject) {
+        Expressage expressage = this.expressageRepository.findOne(expressageid);
         expressage.setReject(reject);
         expressage.setType("");
         this.expressageRepository.save(expressage);
         return ErrorCode.SUCCESS;
     }
 
-    public ErrorCode uptype(){
-        String type="待寄";
-        List<Expressage> listtype=this.expressageRepository.findByType(type);
-        for (int i=0;i<listtype.size();i++){
+    public ErrorCode uptype() {
+        String type = "待寄";
+        List<Expressage> listtype = this.expressageRepository.findByType(type);
+        for (int i = 0; i < listtype.size(); i++) {
             listtype.get(i).setType("已寄");
         }
         return ErrorCode.SUCCESS;

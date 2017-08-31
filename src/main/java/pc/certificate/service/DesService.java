@@ -19,20 +19,21 @@ import java.security.SecureRandom;
 public class DesService {
 
     private static final byte[] key = "certific".getBytes();
-    private static final String UTF8="utf8";
+    private static final String UTF8 = "utf8";
 
     /**
      * 加密函数
+     * <p>
+     * //     * @param data
+     * 加密数据
+     * //     * @param key
+     * 密钥
      *
-//     * @param data
-     *            加密数据
-//     * @param key
-     *            密钥
      * @return 返回加密后的数据
      */
-    public  String encrypt(String a) {
+    public String encrypt(String a) {
 
-        byte[] data= new byte[0];
+        byte[] data = new byte[0];
         try {
             data = a.getBytes(UTF8);
         } catch (UnsupportedEncodingException e) {
@@ -72,20 +73,21 @@ public class DesService {
 
     /**
      * 解密函数
+     * <p>
+     * //     * @param data
+     * 解密数据
+     * //     * @param key
+     * 密钥
      *
-//     * @param data
-     *            解密数据
-//     * @param key
-     *            密钥
      * @return 返回解密后的数据
      */
-    public  String decrypt(String data) {
+    public String decrypt(String data) {
 
         byte[] b = new byte[data.length() / 2];
         int i;
         for (i = 0; i < data.length() / 2; i++) {
-           String s2 = data.substring(i * 2, i * 2 + 2);
-            b[i] = (byte)(Integer.parseInt(s2, 16) & 0xff);
+            String s2 = data.substring(i * 2, i * 2 + 2);
+            b[i] = (byte) (Integer.parseInt(s2, 16) & 0xff);
         }
 
 
@@ -112,7 +114,7 @@ public class DesService {
             // 正式执行解密操作
             byte decryptedData[] = cipher.doFinal(b);
 
-            return new String(decryptedData,UTF8);
+            return new String(decryptedData, UTF8);
         } catch (Exception e) {
             System.err.println("DES算法，解密出错。");
             e.printStackTrace();
@@ -135,13 +137,13 @@ public class DesService {
     }
 
 
-    public String EncoderByMd5(String uppassword) throws NoSuchAlgorithmException, UnsupportedEncodingException{
+    public String EncoderByMd5(String uppassword) throws NoSuchAlgorithmException, UnsupportedEncodingException {
         //确定计算方法
-         MessageDigest md5=MessageDigest.getInstance("MD5");
-         BASE64Encoder base64en = new BASE64Encoder();
+        MessageDigest md5 = MessageDigest.getInstance("MD5");
+        BASE64Encoder base64en = new BASE64Encoder();
         // 加密后的字符串
-         String newstr=base64en.encode(md5.digest(uppassword.getBytes(UTF8)));
-         return newstr;
-         }
+        String newstr = base64en.encode(md5.digest(uppassword.getBytes(UTF8)));
+        return newstr;
+    }
 
 }

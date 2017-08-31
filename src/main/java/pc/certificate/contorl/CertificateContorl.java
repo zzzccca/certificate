@@ -32,48 +32,48 @@ public class CertificateContorl {
     private DesService desService;
 
     @RequestMapping("/certificate/fuzzy")
-    public List<Certificate> fuzzy(String usercardid,String name){
-        return this.certificateService.findbynameandbirthdate(usercardid,name);
+    public List<Certificate> fuzzy(String usercardid, String name) {
+        return this.certificateService.findbynameandbirthdate(usercardid, name);
     }
 
     @RequestMapping("/certificate/mycertificate")
-    public Object mycertificate(String userid){
+    public Object mycertificate(String userid) {
         return this.certificateService.findbybinding(userid);
     }
 
     @RequestMapping("/certificate/erweima")
-    public Object erweima(HttpServletRequest request,String id){
-        Certificate certificate=new Certificate();
-        certificate=this.certificateService.findbyid(id);
+    public Object erweima(HttpServletRequest request, String id) {
+        Certificate certificate = new Certificate();
+        certificate = this.certificateService.findbyid(id);
         certificate.setCardid(this.desService.decrypt(certificate.getCardid()));
 
-        if (certificate!=null) {
-            this.enquiriesService.addenquiries(request,certificate.getCertificatenumber(),certificate.getName(),certificate.getCertificatename());
+        if (certificate != null) {
+            this.enquiriesService.addenquiries(request, certificate.getCertificatenumber(), certificate.getName(), certificate.getCertificatename());
             return certificate;
-        }else
+        } else
             return ErrorCode.NOCERTIFICATEID;
     }
 
     @RequestMapping("/certificate/findbyid")
-    public Object findbyid(String id){
-        Certificate certificate=this.certificateService.findbyid(id);
-        if (certificate!=null){
-        certificate.setCardid(this.desService.decrypt(certificate.getCardid()));
+    public Object findbyid(String id) {
+        Certificate certificate = this.certificateService.findbyid(id);
+        if (certificate != null) {
+            certificate.setCardid(this.desService.decrypt(certificate.getCardid()));
             return certificate;
-        }else
+        } else
             return ErrorCode.NOCERTIFICATEID;
     }
 
     @RequestMapping("/certificate/certificatename")
-    public List findbycertificatename(String certificatename){
+    public List findbycertificatename(String certificatename) {
         return this.certificateService.findbycertificatename(certificatename);
     }
 
     @RequestMapping("/certificate/findbycertificate")
-    public Object findbycertificate(HttpServletRequest request,String name, String certificatenumber, String certificatename){
-        Certificate certificate= this.certificateService.findbycertificate(name,certificatenumber,certificatename);
-        if (certificate!= null){
-            this.enquiriesService.addenquiries(request,certificate.getCertificatenumber(),certificate.getName(),certificate.getCertificatename());
+    public Object findbycertificate(HttpServletRequest request, String name, String certificatenumber, String certificatename) {
+        Certificate certificate = this.certificateService.findbycertificate(name, certificatenumber, certificatename);
+        if (certificate != null) {
+            this.enquiriesService.addenquiries(request, certificate.getCertificatenumber(), certificate.getName(), certificate.getCertificatename());
         }
         return certificate;
     }
@@ -84,8 +84,8 @@ public class CertificateContorl {
         long size = exl.getSize();
         if (exl == null) {
             return ErrorCode.NULL;
-        } else if(name == null || ("").equals(name) || size == 0){
-         return ErrorCode.NULL;//以上4行皆是判断文件是否为空
+        } else if (name == null || ("").equals(name) || size == 0) {
+            return ErrorCode.NULL;//以上4行皆是判断文件是否为空
         }
         boolean a = name.matches("^.+\\.(?i)(xls|xlsx)$");//正则匹配文件后缀
         if (a == false) {
@@ -101,27 +101,27 @@ public class CertificateContorl {
     }
 
     @RequestMapping("certificate/addcertificate")
-    public ErrorCode addcertificate(String cardid){
-        Certificate certificate=new Certificate();
+    public ErrorCode addcertificate(String cardid) {
+        Certificate certificate = new Certificate();
         certificate.setCardid(cardid);
         this.certificateService.addcertificate(certificate);
         return ErrorCode.SUCCESS;
     }
 
     @RequestMapping("/certificate/upcertificate")
-    public Object upcertificate(String id,String certificatename,String name,String cardid,String birthdate,String certificatenumber,String issuanceagencies,String approvalofdate,String issuanceoftime){
-    return this.certificateService.upcertificate(id,certificatename,name,cardid,birthdate,certificatenumber,issuanceagencies,approvalofdate,issuanceoftime);
+    public Object upcertificate(String id, String certificatename, String name, String cardid, String birthdate, String certificatenumber, String issuanceagencies, String approvalofdate, String issuanceoftime) {
+        return this.certificateService.upcertificate(id, certificatename, name, cardid, birthdate, certificatenumber, issuanceagencies, approvalofdate, issuanceoftime);
 
     }
 
     @RequestMapping("/certificate/fuzzycertificate")//模糊查找证书名
-    public List<Certificate> fuzzycertificate(String certificatename){
+    public List<Certificate> fuzzycertificate(String certificatename) {
         return this.certificateService.certificatename(certificatename);
     }
 
     @RequestMapping("/certificate/blur")
-    public Object blur(int page,int row,String fuzzy){
-        return this.certificateService.fuzzy(page,row,fuzzy);
+    public Object blur(int page, int row, String fuzzy) {
+        return this.certificateService.fuzzy(page, row, fuzzy);
 
     }
 }

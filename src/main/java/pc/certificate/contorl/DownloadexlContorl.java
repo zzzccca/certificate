@@ -39,14 +39,13 @@ public class DownloadexlContorl {
      * @param workbook
      * @param sheet
      */
-    private void createTitle(XSSFWorkbook workbook, XSSFSheet sheet)
-    {
+    private void createTitle(XSSFWorkbook workbook, XSSFSheet sheet) {
         XSSFRow row = sheet.createRow(0);
         //设置列宽，setColumnWidth的第二个参数要乘以256，这个参数的单位是1/256个字符宽度
-        sheet.setColumnWidth(1, 20*256);
-        sheet.setColumnWidth(2, 12*256);
-        sheet.setColumnWidth(3, 17*256);
-        sheet.setColumnWidth(4, 20*256);
+        sheet.setColumnWidth(1, 20 * 256);
+        sheet.setColumnWidth(2, 12 * 256);
+        sheet.setColumnWidth(3, 17 * 256);
+        sheet.setColumnWidth(4, 20 * 256);
 
         //设置为居中加粗
         XSSFCellStyle style = workbook.createCellStyle();
@@ -78,13 +77,12 @@ public class DownloadexlContorl {
     }
 
 
-    @SuppressWarnings({ "unchecked", "rawtypes" })
+    @SuppressWarnings({"unchecked", "rawtypes"})
     @RequestMapping("/getexcel")
-    public void getExcel(HttpServletResponse res) throws IOException
-    {
+    public void getExcel(HttpServletResponse res) throws IOException {
 
         res.setContentType("application/octet-stream");
-        res.setHeader("Content-Disposition", "attachment;filename=User.xlsx" );//下载后的word名
+        res.setHeader("Content-Disposition", "attachment;filename=User.xlsx");//下载后的word名
         res.flushBuffer();
 
         XSSFWorkbook workbook = new XSSFWorkbook();
@@ -94,7 +92,7 @@ public class DownloadexlContorl {
 
         //新增数据行，并且设置单元格数据
         int rowNum = 1;
-        for (User user:entities) {
+        for (User user : entities) {
 
             XSSFRow row = sheet.createRow(rowNum);
             row.createCell(0).setCellValue(user.getName());
@@ -108,24 +106,23 @@ public class DownloadexlContorl {
         workbook.write(res.getOutputStream());
     }
 
-    @SuppressWarnings({ "unchecked", "rawtypes" })
+    @SuppressWarnings({"unchecked", "rawtypes"})
     @RequestMapping("/getexpressageexl")
-    public void getexpressageexl(HttpServletResponse res) throws IOException
-    {
+    public void getexpressageexl(HttpServletResponse res) throws IOException {
 
         res.setContentType("application/octet-stream");
-        res.setHeader("Content-Disposition", "attachment;filename=Expressage.xlsx" );//下载后的word名
+        res.setHeader("Content-Disposition", "attachment;filename=Expressage.xlsx");//下载后的word名
         res.flushBuffer();
 
         XSSFWorkbook workbook = new XSSFWorkbook();
         XSSFSheet sheet = workbook.createSheet("统计表");
         createTitle2(workbook, sheet);
-        String type="待寄";
+        String type = "待寄";
         List<Expressage> entities = this.expressageRepository.findByType(type);
 
         //新增数据行，并且设置单元格数据
         int rowNum = 1;
-        for (Expressage expressage:entities) {
+        for (Expressage expressage : entities) {
 
             XSSFRow row = sheet.createRow(rowNum);
             row.createCell(0).setCellValue(expressage.getName());
@@ -146,8 +143,7 @@ public class DownloadexlContorl {
      * @param workbook
      * @param sheet
      */
-    private void createTitle2(XSSFWorkbook workbook, XSSFSheet sheet)
-    {
+    private void createTitle2(XSSFWorkbook workbook, XSSFSheet sheet) {
         XSSFRow row = sheet.createRow(0);
 
         //设置为居中加粗

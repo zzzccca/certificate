@@ -13,9 +13,10 @@ import java.util.List;
  * Created by wu on 17-8-30.
  */
 @Repository
-public interface ExpressageRepository extends CrudRepository<Expressage,String>{
+public interface ExpressageRepository extends CrudRepository<Expressage, String> {
 
-    Page<Expressage> findByTypeOrderByCreatetimeDesc(Pageable pageable,String type);
+    Page<Expressage> findByTypeOrderByCreatetimeDesc(Pageable pageable, String type);
+
     List<Expressage> findByType(String type);
 
     Page<Expressage> findAllByOrderByCreatetimeDesc(Pageable pageable);

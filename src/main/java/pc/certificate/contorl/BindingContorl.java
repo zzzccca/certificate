@@ -17,30 +17,30 @@ public class BindingContorl {
     private BindingService bindingService;
 
     @RequestMapping("/binding/tobinding")
-    public Object tobinding(@RequestParam("filename") MultipartFile img, String certificateid, String userid){
-        if (img==null) return ErrorCode.NULL;
+    public Object tobinding(@RequestParam("filename") MultipartFile img, String certificateid, String userid) {
+        if (img == null) return ErrorCode.NULL;
         try {
-        this.bindingService.uploadimage(img,certificateid,userid);
-        }catch (Exception e){
+            this.bindingService.uploadimage(img, certificateid, userid);
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return ErrorCode.SUCCESS;
     }
 
     @RequestMapping("/binding/viewbinding")
-    public Object viewbinding(int page,int row,String type,String fuzzy){
-        return this.bindingService.viewbinding(page,row,type,fuzzy);
+    public Object viewbinding(int page, int row, String type, String fuzzy) {
+        return this.bindingService.viewbinding(page, row, type, fuzzy);
     }
 
 
     @RequestMapping("/binding/success")
-    public ErrorCode successbinding(String bindingid,String userid,String certificateid){
-        return this.bindingService.success(bindingid,userid,certificateid);
+    public ErrorCode successbinding(String bindingid, String userid, String certificateid) {
+        return this.bindingService.success(bindingid, userid, certificateid);
     }
 
     @RequestMapping("/binding/reject")
-    public ErrorCode reject(String bindingid,String reject){
-        return this.bindingService.reject(bindingid,reject);
+    public ErrorCode reject(String bindingid, String reject) {
+        return this.bindingService.reject(bindingid, reject);
     }
 
 }
