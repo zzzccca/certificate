@@ -87,6 +87,7 @@ public class ExpressageService {
         List<Expressage> listtype = this.expressageRepository.findByType(type);
         for (int i = 0; i < listtype.size(); i++) {
             listtype.get(i).setType("已寄");
+            this.expressageRepository.save(listtype);
         }
         return ErrorCode.SUCCESS;
     }
