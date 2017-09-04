@@ -26,7 +26,7 @@ public class KdniaoService {
     private ExpressageRepository expressageRepository;
 
 
-    @Scheduled(cron = "0 0 0 * * ? *")// s m h day month week  year  0:制定数字出发 ×：每到节点出发（如 每天，每月，每年） ？：表示忽略（周与月冲突，则忽略）
+    @Scheduled(cron = "0 0 0 * * ?")// s m h day month week  year  0:制定数字出发 ×：每到节点出发（如 每天，每月，每年） ？：表示忽略（周与月冲突，则忽略）
     public void timer() throws Exception {
         String type = "已寄";
         List<Expressage> ex = this.expressageRepository.findByType(type);
