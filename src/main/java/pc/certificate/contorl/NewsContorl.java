@@ -32,8 +32,8 @@ public class NewsContorl {
     }
 
     @RequestMapping("/news/uptype")
-    public ErrorCode uptype(String userid) {
-        this.newsService.uptype(userid);
+    public ErrorCode uptype(String id) {
+        this.newsService.uptype(id);
         return ErrorCode.SUCCESS;
     }
 

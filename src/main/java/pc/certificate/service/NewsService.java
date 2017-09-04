@@ -50,12 +50,10 @@ public class NewsService {
         return this.newsRepository.save(n);
     }
 
-    public void uptype(String userid) {
-        List<News> listn = this.newsRepository.findByUserid(userid);
-        for (int i = 0; i < listn.size(); i++) {
-            listn.get(i).setType("已读");
-            this.newsRepository.save(listn);
-        }
+    public void uptype(String id) {
+        News n=this.newsRepository.findOne(id);
+        n.setType("已读");
+        this.newsRepository.save(n);
     }
 
     public Map view(String userid) {
