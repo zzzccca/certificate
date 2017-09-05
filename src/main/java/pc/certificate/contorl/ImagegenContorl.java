@@ -13,6 +13,7 @@ import pc.certificate.service.ImageService;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -23,6 +24,15 @@ public class ImagegenContorl {
     public String toImg() {
         return "image/image";
     }
+
+
+    @RequestMapping(value = "/imgcode",produces="text/plain")
+    public String imgcode(HttpSession session) {
+        ImageService randomValidateCode = new ImageService();
+        return randomValidateCode.getRandcodeStringByBase64(session,"imagecode");// 输出图片方法
+
+    }
+
 
     //登录获取验证码
     @RequestMapping("/imagecode")

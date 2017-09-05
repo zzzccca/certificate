@@ -4,12 +4,16 @@ package pc.certificate.service;
  * Created by Administrator on 2017/1/10.
  */
 
+import sun.misc.BASE64Encoder;
+
 import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.util.Random;
 
 public class ImageService {
@@ -77,6 +81,43 @@ public class ImageService {
     }
 
 
+    public String getRandcodeStringByBase64(HttpSession session,String key){
+        // BufferedImage类是具有缓冲区的Image类,Image类是用于描述图像信息的类
+        BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_BGR);
+        Graphics g = image.getGraphics();// 产生Image对象的Graphics对象,改对象可以在图像上进行各种绘制操作
+        g.fillRect(0, 0, width, height);
+        g.setFont(new Font("Times New Roman", Font.ROMAN_BASELINE, 18));
+        g.setColor(getRandColor(110, 133));
+        // 绘制干扰线
+        for (int i = 0; i <= lineSize; i++) {
+            drowLine(g);
+        }
+        // 绘制随机字符
+        String randomString = "";
+        for (int i = 1; i <= stringNum; i++) {
+            randomString = drowString(g, randomString, i);
+        }
+//        //2：将随机生成的验证码放入session中
+        String sessionid = session.getId();
+        session.setAttribute(sessionid + key, randomString);
+        System.out.println("*************" + randomString);
+
+        g.dispose();
+            ByteArrayOutputStream tmp = new ByteArrayOutputStream();
+        try {
+            ImageIO.write(image, "png", tmp);
+            tmp.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+            BASE64Encoder encoder = new BASE64Encoder();
+            return encoder.encode(tmp.toByteArray());
+
+
+    }
+
+
+
     /**
      * 生成随机图片
      */
@@ -110,6 +151,13 @@ public class ImageService {
             Integer contentLength = tmp.size();
             response.setHeader("content-length", contentLength + "");
             response.getOutputStream().write(tmp.toByteArray());// 将内存中的图片通过流动形式输出到客户端
+
+            byte[] bs=tmp.toByteArray();
+
+            BASE64Encoder encoder = new BASE64Encoder();
+
+
+
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
