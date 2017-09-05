@@ -25,9 +25,9 @@ public class EnquiriesService {
     private AdminService adminService;
 
 
-    public Object addenquiries(HttpServletRequest request,String certificatenumber,String name,String certificatename){
-        String ip=this.getIp2(request);
-        Enquiries enquiries=new Enquiries();
+    public Object addenquiries(HttpServletRequest request, String certificatenumber, String name, String certificatename) {
+        String ip = this.getIp2(request);
+        Enquiries enquiries = new Enquiries();
         enquiries.setEnquiriesip(ip);
         enquiries.setCertificatenumber(certificatenumber);
         enquiries.setName(name);
@@ -37,30 +37,30 @@ public class EnquiriesService {
     }
 
 
-    public  String getIp2(HttpServletRequest request) {
+    public String getIp2(HttpServletRequest request) {
         String ip = request.getHeader("X-Forwarded-For");
-        if(StringUtils.isNotEmpty(ip) && !"unKnown".equalsIgnoreCase(ip)){
+        if (StringUtils.isNotEmpty(ip) && !"unKnown".equalsIgnoreCase(ip)) {
             //多次反向代理后会有多个ip值，第一个ip才是真实ip
             int index = ip.indexOf(",");
-            if(index != -1){
-                return ip.substring(0,index);
-            }else{
+            if (index != -1) {
+                return ip.substring(0, index);
+            } else {
                 return ip;
             }
         }
         ip = request.getHeader("X-Real-IP");
-        if(StringUtils.isNotEmpty(ip) && !"unKnown".equalsIgnoreCase(ip)){
+        if (StringUtils.isNotEmpty(ip) && !"unKnown".equalsIgnoreCase(ip)) {
             return ip;
         }
         return request.getRemoteAddr();
     }
 
-    public Object pageall(int page,int row,String fuzzy) {
-            Pageable pageable = new PageRequest(page - 1, row);
+    public Object pageall(int page, int row, String fuzzy) {
+        Pageable pageable = new PageRequest(page - 1, row);
         if (fuzzy != null && fuzzy != "") {
-            Page<Enquiries> pageenquiries=this.enquiriesRepository.findByNameOrCertificatenumberOrCertificatename(pageable,fuzzy);
+            Page<Enquiries> pageenquiries = this.enquiriesRepository.findByNameOrCertificatenumberOrCertificatename(pageable, fuzzy);
             return pageenquiries;
-        }else {
+        } else {
             Page<Enquiries> list = this.enquiriesRepository.findAll(pageable);
             return this.adminService.returnpage(page, list);
         }

@@ -18,7 +18,7 @@ public class EnquiriesContorl {
     private EnquiriesService enquiriesService;
 
     @RequestMapping("/enquiries/pageall")
-    public Object pageall(int page,int row,String fuzzy){
-        return this.enquiriesService.pageall(page,row,fuzzy);
+    public Object pageall(int page, int row, String fuzzy) {
+        return this.enquiriesService.pageall(page, row, fuzzy);
     }
 }

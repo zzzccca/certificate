@@ -13,19 +13,19 @@ import java.util.List;
  * Created by wu on 17-8-14.
  */
 @Repository
-public interface CertificateRepository extends CrudRepository<Certificate,String>{
+public interface CertificateRepository extends CrudRepository<Certificate, String> {
 
     List<Certificate> findByNameAndCardid(String name, String cardid);
 
     List<Certificate> findByCardid(String cardid);
 
-    List<Certificate> findByNameAndBirthdateAndBindingIsNull(String name,String birthdate);
+    List<Certificate> findByNameAndBirthdateAndBindingIsNull(String name, String birthdate);
 
     List<Certificate> findByBinding(String binding);
 
     Certificate findById(String id);
 
-    Certificate findByNameAndCertificatenumberAndCertificatename(String name,String certificatenumber,String certificatename);
+    Certificate findByNameAndCertificatenumberAndCertificatename(String name, String certificatenumber, String certificatename);
 
     Page<Certificate> findAll(Pageable pageable);
 
@@ -33,5 +33,5 @@ public interface CertificateRepository extends CrudRepository<Certificate,String
     List<Certificate> findByCertificatenameLike(String certificatename);
 
     @Query("select u from Certificate u where u.certificatename = ?1 or u.name = ?1 or u.certificatenumber = ?1")
-    Page<Certificate> findByCertificatenameOrNameOrCertificatenumber(Pageable pageable,String plain);
+    Page<Certificate> findByCertificatenameOrNameOrCertificatenumber(Pageable pageable, String plain);
 }

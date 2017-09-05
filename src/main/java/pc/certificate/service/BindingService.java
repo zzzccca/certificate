@@ -45,20 +45,20 @@ public class BindingService {
     @Value("${upload.path}")
     private String image;
 
-    public Object uploadimage(MultipartFile img,String certificateid,String userid) throws Exception{
+    public Object uploadimage(MultipartFile img, String certificateid, String userid) throws Exception {
 
-        String imgname=this.useIdGenerate.createid("img");//生成图片保存在本地的名称
-        String file=image+imgname;//设置文件保存的路劲
+        String imgname = this.useIdGenerate.createid("img");//生成图片保存在本地的名称
+        String file = image + imgname;//设置文件保存的路劲
         Files.copy(img.getInputStream(), Paths.get(file));//将文件流copy到设置路径下
 
-        Certificate certificate=this.certificateService.findbyid(certificateid);
-        String certificatename=certificate.getCertificatename();
-        String certificatenumber=certificate.getCertificatenumber();
+        Certificate certificate = this.certificateService.findbyid(certificateid);
+        String certificatename = certificate.getCertificatename();
+        String certificatenumber = certificate.getCertificatenumber();
 
-        User user=this.userService.findone(userid);
-        String bindingname=user.getName();
+        User user = this.userService.findone(userid);
+        String bindingname = user.getName();
 
-        Binding binding=new Binding();
+        Binding binding = new Binding();
         binding.setBindingimage(imgname);
         binding.setCertificateid(certificateid);
         binding.setUserid(userid);
@@ -71,40 +71,44 @@ public class BindingService {
     }
 
 
-    public Object viewbinding(int page,int row,String type,String fuzzy) {
+    public Object viewbinding(int page, int row, String type, String fuzzy) {
         Pageable pageable = new PageRequest(page - 1, row);
         Page<Binding> pagebinding = null;
-        if (StringUtils.hasText(type) && StringUtils.hasText(fuzzy)){
-            pagebinding = this.bindingRepository.findByNameOrCertificatenumberOrCertificatenameAndType(pageable, fuzzy,type);
-        }else if (StringUtils.hasText(type)) {
+        if (StringUtils.hasText(type) && StringUtils.hasText(fuzzy)) {
+            pagebinding = this.bindingRepository.findByNameOrCertificatenumberOrCertificatenameAndType(pageable, fuzzy, type);
+        } else if (StringUtils.hasText(type)) {
             pagebinding = this.bindingRepository.findByTypeOrderByCreatetimeDesc(pageable, type);
-        } else if (StringUtils.hasText(fuzzy)){
+        } else if (StringUtils.hasText(fuzzy)) {
             pagebinding = this.bindingRepository.findByNameOrCertificatenumberOrCertificatename(pageable, fuzzy);
         } else {
             pagebinding = this.bindingRepository.findAllByOrderByCreatetimeDesc(pageable);
         }
-        return this.adminService.returnpage(page,pagebinding);
+        return this.adminService.returnpage(page, pagebinding);
     }
 
-    public ErrorCode success(String bindingid,String userid,String certificateid){
+    public ErrorCode success(String bindingid, String userid, String certificateid) {
 
-        Binding binding=this.bindingRepository.findById(bindingid);
+        Binding binding = this.bindingRepository.findById(bindingid);
         binding.setType("已审核");
         this.bindingRepository.save(binding);
-        Certificate certificate=new Certificate();
-        certificate=this.certificateRepository.findById(certificateid);
+        Certificate certificate = new Certificate();
+        certificate = this.certificateRepository.findById(certificateid);
         certificate.setBinding(userid);
         this.certificateRepository.save(certificate);
 
         return ErrorCode.SUCCESS;
     }
 
-    public ErrorCode reject(String bindingid,String reject){
-        Binding binding=this.bindingRepository.findById(bindingid);
+    public ErrorCode reject(String bindingid, String reject) {
+        Binding binding = this.bindingRepository.findById(bindingid);
         binding.setType("已驳回");
-        binding.setRejuct(reject);
+        binding.setReject(reject);
         this.bindingRepository.save(binding);
 
         return ErrorCode.SUCCESS;
+    }
+
+    public Binding findone(String id) {
+        return this.bindingRepository.findOne(id);
     }
 }

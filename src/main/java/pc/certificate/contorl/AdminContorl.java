@@ -20,11 +20,11 @@ public class AdminContorl {
     private AdminService adminService;
 
     @RequestMapping("/admin/login")
-    public ErrorCode login(String account,String password){
-        Admin admin=this.adminService.login(account,password);
-        if (admin!=null){
+    public ErrorCode login(String account, String password) {
+        Admin admin = this.adminService.login(account, password);
+        if (admin != null) {
             return ErrorCode.SUCCESS;
-        }else
+        } else
             return ErrorCode.NAMEORPWDERROR;
     }
 }

@@ -13,10 +13,10 @@ import java.util.List;
  * Created by wu on 17-8-14.
  */
 @Repository
-public interface UserRepository extends CrudRepository<User,String>{
+public interface UserRepository extends CrudRepository<User, String> {
     User findByCardid(String cardid);
 
-    User findByCardidAndPassword(String cardid,String password);
+    User findByCardidAndPassword(String cardid, String password);
 
     User findById(String id);
 
@@ -25,5 +25,5 @@ public interface UserRepository extends CrudRepository<User,String>{
     List<User> findAll();
 
     @Query("select u from User u where u.name like %?1% or u.cardid = ?2 or u.phone = ?2")
-    Page<User> findByNameLikeOrCardidOrPhone(Pageable pageable,String plain,String encrypted);
+    Page<User> findByNameLikeOrCardidOrPhone(Pageable pageable, String plain, String encrypted);
 }
