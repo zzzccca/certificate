@@ -7,6 +7,8 @@ import pc.certificate.domain.Binding;
 import pc.certificate.domain.enums.ErrorCode;
 import pc.certificate.service.BindingService;
 
+import javax.servlet.http.HttpSession;
+
 /**
  * Created by wu on 17-8-28.
  */
@@ -18,7 +20,8 @@ public class BindingContorl {
     private BindingService bindingService;
 
     @RequestMapping("/binding/tobinding")
-    public Object tobinding(@RequestParam("filename") MultipartFile img, String certificateid, String userid) {
+    public Object tobinding(@RequestParam("filename") MultipartFile img, String certificateid, HttpSession session) {
+        String userid = session.getAttribute("userid").toString();
         if (img == null) return ErrorCode.NULL;
         try {
             this.bindingService.uploadimage(img, certificateid, userid);

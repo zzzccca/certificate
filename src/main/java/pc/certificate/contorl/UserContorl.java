@@ -14,6 +14,7 @@ import pc.certificate.service.SmsService;
 import pc.certificate.service.UserService;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
@@ -85,7 +86,7 @@ public class UserContorl {
     }
 
     @RequestMapping("/user/login")
-    public Object login(String cardid, String password, HttpServletRequest request) {
+    public Object login(String cardid, String password, HttpServletRequest request, HttpSession session) {
         Map image = new HashMap();
         image = this.imagegenContorl.checkimagecode(request);
         String card = this.userService.encryptcardid(cardid);
@@ -94,9 +95,9 @@ public class UserContorl {
         if (image.get("errorcode").equals(200)) {
             if (user != null) {
                 List<Certificate> shuliang = this.certificateService.upbinding(card, user.getId());
+                session.setAttribute("userid", user.getId());
                 Map map = new HashMap();
                 map.put("errorcode", shuliang.size());
-                map.put("errorinfo", user.getId());
                 return map;
             } else
                 return ErrorCode.NAMEORPWDERROR;
@@ -116,13 +117,15 @@ public class UserContorl {
     }
 
     @RequestMapping("/user/upphone")
-    public ErrorCode upphone(String id, String phone) {
+    public ErrorCode upphone(HttpSession session, String phone) {
+        String id = session.getAttribute("userid").toString();
         this.userService.upphone(id, phone);
         return ErrorCode.SUCCESS;
     }
 
     @RequestMapping("/user/uppassword")
-    public ErrorCode uppassword(String id, String password) {
+    public ErrorCode uppassword(HttpSession session, String password) {
+        String id = session.getAttribute("userid").toString();
         this.userService.uppassword(id, password);
         return ErrorCode.SUCCESS;
     }

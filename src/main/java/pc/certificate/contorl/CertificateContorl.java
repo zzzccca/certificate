@@ -11,6 +11,7 @@ import pc.certificate.service.EnquiriesService;
 import pc.certificate.service.UploadexlService;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.util.List;
 
 /**
@@ -37,7 +38,8 @@ public class CertificateContorl {
     }
 
     @RequestMapping("/certificate/mycertificate")
-    public Object mycertificate(String userid) {
+    public Object mycertificate(HttpSession session) {
+        String userid = session.getAttribute("userid").toString();
         return this.certificateService.findbybinding(userid);
     }
 

@@ -56,11 +56,8 @@ public class CertificateService {
         return this.certificateRepository.findByNameAndBirthdateAndBindingIsNull(name, birthdate);
     }
 
-    public Object findbybinding(String binding) {
-        if (binding != null) {
-            return this.certificateRepository.findByBinding(binding);
-        } else
-            return ErrorCode.NULL;
+    public Object findbybinding(String userid) {
+        return this.certificateRepository.findByBinding(userid);
     }
 
     public String tomilliseconds(String birthdates) throws Exception {

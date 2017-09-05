@@ -6,6 +6,7 @@ import org.springframework.web.multipart.MultipartFile;
 import pc.certificate.domain.enums.ErrorCode;
 import pc.certificate.service.NewsService;
 
+import javax.servlet.http.HttpSession;
 import java.util.Map;
 
 /**
@@ -38,7 +39,8 @@ public class NewsContorl {
     }
 
     @RequestMapping("/news/view")
-    public Map view(String userid) {
+    public Map view(HttpSession session) {
+        String userid = session.getAttribute("userid").toString();
         return this.newsService.view(userid);
     }
 }

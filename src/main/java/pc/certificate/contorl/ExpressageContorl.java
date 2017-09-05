@@ -9,6 +9,8 @@ import pc.certificate.domain.Expressage;
 import pc.certificate.domain.enums.ErrorCode;
 import pc.certificate.service.ExpressageService;
 
+import javax.servlet.http.HttpSession;
+
 /**
  * Created by wu on 17-8-30.
  */
@@ -20,7 +22,8 @@ public class ExpressageContorl {
     private ExpressageService expressageService;
 
     @RequestMapping("/expressage/addexpressage")
-    public Object addperessage(String phone, String address, String certificateid, String userid) {
+    public Object addperessage(String phone, String address, String certificateid, HttpSession session) {
+        String userid = session.getAttribute("userid").toString();
         return this.expressageService.addexpressage(phone, address, certificateid, userid);
     }
 
