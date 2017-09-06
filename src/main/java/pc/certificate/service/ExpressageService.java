@@ -7,9 +7,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import pc.certificate.domain.Certificate;
 import pc.certificate.domain.Expressage;
+import pc.certificate.domain.News;
 import pc.certificate.domain.User;
 import pc.certificate.domain.enums.ErrorCode;
 import pc.certificate.reop.ExpressageRepository;
+import pc.certificate.reop.NewsRepository;
 
 import java.util.List;
 
@@ -27,6 +29,9 @@ public class ExpressageService {
 
     @Autowired
     private ExpressageRepository expressageRepository;
+
+    @Autowired
+    private NewsRepository newsRepository;
 
 
     public Object addexpressage(String phone, String address, String certificateid, String userid) {
@@ -49,6 +54,14 @@ public class ExpressageService {
             expressage.setAddress(address);
             expressage.setType("待审核");
             this.expressageRepository.save(expressage);
+
+            News n = new News();
+            n.setTitle("发起申请寄件");
+            n.setContent(certificatename + ":申请寄件");
+            n.setUserid(userid);
+            n.setType("未读");
+            this.newsRepository.save(n);
+
             return ErrorCode.SUCCESS;
         } else
             return ErrorCode.NULL;
@@ -68,17 +81,38 @@ public class ExpressageService {
 
     public ErrorCode success(String expressageid, String oddnumber) {
         Expressage expressage = this.expressageRepository.findOne(expressageid);
+
+        String certificatename = expressage.getCertificatename();
+        String userid = expressage.getUserid();
         expressage.setOddnumber(oddnumber);
         expressage.setType("待寄");
         this.expressageRepository.save(expressage);
+
+        News n = new News();
+        n.setTitle("申请证书寄件通过审核");
+        n.setContent(certificatename + ":申请寄件通过审核");
+        n.setUserid(userid);
+        n.setType("未读");
+        this.newsRepository.save(n);
+
         return ErrorCode.SUCCESS;
     }
 
     public ErrorCode reject(String expressageid, String reject) {
         Expressage expressage = this.expressageRepository.findOne(expressageid);
+
+        String certificatename = expressage.getCertificatename();
+        String userid = expressage.getUserid();
         expressage.setReject(reject);
         expressage.setType("");
         this.expressageRepository.save(expressage);
+
+        News n = new News();
+        n.setTitle("申请证书寄件失败");
+        n.setContent(certificatename + ":申请寄件失败（" + reject + ")");
+        n.setUserid(userid);
+        n.setType("未读");
+        this.newsRepository.save(n);
         return ErrorCode.SUCCESS;
     }
 
@@ -87,6 +121,16 @@ public class ExpressageService {
         List<Expressage> listtype = this.expressageRepository.findByType(type);
         for (int i = 0; i < listtype.size(); i++) {
             listtype.get(i).setType("已寄");
+            String certificatename = listtype.get(i).getCertificatename();
+            String userid = listtype.get(i).getUserid();
+
+            News n = new News();
+            n.setTitle("申请证书已经寄件");
+            n.setContent(certificatename + ":证书已经寄件");
+            n.setUserid(userid);
+            n.setType("未读");
+
+            this.newsRepository.save(n);
             this.expressageRepository.save(listtype);
         }
         return ErrorCode.SUCCESS;

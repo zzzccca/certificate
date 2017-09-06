@@ -5,7 +5,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import pc.certificate.domain.Expressage;
+import pc.certificate.domain.News;
 import pc.certificate.reop.ExpressageRepository;
+import pc.certificate.reop.NewsRepository;
 
 import java.io.*;
 import java.net.HttpURLConnection;
@@ -25,6 +27,9 @@ public class KdniaoService {
     @Autowired
     private ExpressageRepository expressageRepository;
 
+    @Autowired
+    private NewsRepository newsRepository;
+
 
     @Scheduled(cron = "0 0 0 * * ?")// s m h day month week  year  0:制定数字出发 ×：每到节点出发（如 每天，每月，每年） ？：表示忽略（周与月冲突，则忽略）
     public void timer() throws Exception {
@@ -38,6 +43,18 @@ public class KdniaoService {
             Map maps = (Map) JSON.parse(result);
             if (maps.get("State").equals("3")) {
                 ex.get(i).setType("已收");
+
+                String certificatename = ex.get(i).getCertificatename();
+                String userid = ex.get(i).getUserid();
+
+                News n = new News();
+                n.setTitle("申请证书已经收件");
+                n.setContent(certificatename + ":证书已收");
+                n.setUserid(userid);
+                n.setType("未读");
+
+                this.newsRepository.save(n);
+
                 this.expressageRepository.save(ex.get(i));
             }
         }

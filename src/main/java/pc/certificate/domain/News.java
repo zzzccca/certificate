@@ -15,6 +15,7 @@ import java.io.Serializable;
 @Table(name = "c_news")
 public class News extends BaseEntity implements Serializable {
 
+    private String title;//标题
     private String content;//消息内容
     private String userid;//消息发送对象
     private String imagename;//消息图片
@@ -50,5 +51,13 @@ public class News extends BaseEntity implements Serializable {
 
     public void setType(String type) {
         this.type = type;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
     }
 }

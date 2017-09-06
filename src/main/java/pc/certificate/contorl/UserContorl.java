@@ -1,6 +1,7 @@
 package pc.certificate.contorl;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -107,8 +108,14 @@ public class UserContorl {
 
 
     @RequestMapping("/user/findone")
-    public User findone(String id) {
-        User user = this.userService.findone(id);
+    public User findone(String id, HttpSession session) {
+        User user = null;
+        if (StringUtils.hasText(id)) {
+            user = this.userService.findone(id);
+        } else {
+            user = this.userService.findone(session.getAttribute("userid").toString());
+        }
+
         String phonedes = this.desService.decrypt(user.getPhone());
         String cardiddes = this.desService.decrypt(user.getCardid());
         user.setPhone(phonedes);

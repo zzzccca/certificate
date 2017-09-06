@@ -10,10 +10,12 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 import pc.certificate.domain.Binding;
 import pc.certificate.domain.Certificate;
+import pc.certificate.domain.News;
 import pc.certificate.domain.User;
 import pc.certificate.domain.enums.ErrorCode;
 import pc.certificate.reop.BindingRepository;
 import pc.certificate.reop.CertificateRepository;
+import pc.certificate.reop.NewsRepository;
 
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -42,6 +44,9 @@ public class BindingService {
     @Autowired
     private BindingRepository bindingRepository;
 
+    @Autowired
+    private NewsRepository newsRepository;
+
     @Value("${upload.path}")
     private String image;
 
@@ -67,6 +72,15 @@ public class BindingService {
         binding.setName(bindingname);
         binding.setType("待审核");
         this.bindingRepository.save(binding);
+
+        News n = new News();
+        n.setTitle("发起申请绑定");
+        n.setContent(certificatename + ":申请绑定");
+        n.setUserid(userid);
+        n.setImagename(imgname);
+        n.setType("未读");
+        this.newsRepository.save(n);
+
         return ErrorCode.SUCCESS;
     }
 
@@ -94,16 +108,33 @@ public class BindingService {
         Certificate certificate = new Certificate();
         certificate = this.certificateRepository.findById(certificateid);
         certificate.setBinding(userid);
+        String certificatename = certificate.getCertificatename();
         this.certificateRepository.save(certificate);
 
+
+        News n = new News();
+        n.setTitle("申请绑定证书通过审核");
+        n.setContent(certificatename + ":申请绑定成功");
+        n.setUserid(userid);
+        n.setType("未读");
+        this.newsRepository.save(n);
         return ErrorCode.SUCCESS;
     }
 
     public ErrorCode reject(String bindingid, String reject) {
         Binding binding = this.bindingRepository.findById(bindingid);
+        String userid = binding.getUserid();
+        String certificatename = binding.getCertificatename();
         binding.setType("已驳回");
         binding.setReject(reject);
         this.bindingRepository.save(binding);
+
+        News n = new News();
+        n.setTitle("申请绑定证书已驳回");
+        n.setContent(certificatename + ":驳回理由（" + reject + ")");
+        n.setUserid(userid);
+        n.setType("未读");
+        this.newsRepository.save(n);
 
         return ErrorCode.SUCCESS;
     }

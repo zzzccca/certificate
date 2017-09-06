@@ -1,8 +1,10 @@
 package pc.certificate.contorl;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
 import pc.certificate.domain.enums.ErrorCode;
 import pc.certificate.service.NewsService;
 
@@ -18,19 +20,6 @@ public class NewsContorl {
 
     @Autowired
     private NewsService newsService;
-
-
-    @RequestMapping("/news/addnew")
-    public ErrorCode addnews(String content, String userid) {
-        this.newsService.addnews(content, userid);
-        return ErrorCode.SUCCESS;
-    }
-
-    @RequestMapping("/news/addimagenew")
-    public ErrorCode addimagenew(@RequestParam("filename") MultipartFile img, String content, String userid) throws Exception {
-        this.newsService.uploadimg(img, content, userid);
-        return ErrorCode.SUCCESS;
-    }
 
     @RequestMapping("/news/uptype")
     public ErrorCode uptype(String id) {
