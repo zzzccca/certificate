@@ -126,10 +126,15 @@ public class UserContorl {
     }
 
     @RequestMapping("/user/upphone")
-    public ErrorCode upphone(HttpSession session, String phone) {
+    public Object upphone(HttpSession session, String phone,String code) throws IOException{
+        Map map=new HashMap();
+        map = this.smsService.checkMsg(phone, code);//验证短信验证码返回的状态码
         String id = session.getAttribute("userid").toString();
-        this.userService.upphone(id, phone);
-        return ErrorCode.SUCCESS;
+        if (map.get("errorcode").equals(200)) {
+            this.userService.upphone(id, phone);
+            return ErrorCode.SUCCESS;
+        }else
+            return map;
     }
 
     @RequestMapping("/user/uppassword")
