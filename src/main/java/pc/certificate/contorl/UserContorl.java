@@ -64,7 +64,9 @@ public class UserContorl {
             e.printStackTrace();
         }
         image = this.imagegenContorl.checkimagecode(request);
-        if (this.certificateService.findcertificate(name, cardid).size() > 0 && this.userService.finduser(cardid) == null) {
+        List<Certificate> c = this.certificateService.findcertificate(name, cardid);
+        List<Certificate> e = this.certificateService.findbynameandbirthdate(cardid, name);
+        if ((c.size() > 0 || e.size() > 0) && this.userService.finduser(cardid) == null) {
             if (map.get("errorcode").equals(200) && image.get("errorcode").equals(200)) {
                 User user = new User();
                 user.setName(name);
