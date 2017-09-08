@@ -1,6 +1,7 @@
 package pc.certificate.contorl;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import pc.certificate.domain.Certificate;
@@ -48,7 +49,9 @@ public class CertificateContorl {
         Certificate certificate = new Certificate();
         certificate = this.certificateService.findbyid(id);
         certificate.setCardid(this.desService.decrypt(certificate.getCardid()));
-        certificate.setGetcardid(this.desService.decrypt(certificate.getGetcardid()));
+        if (StringUtils.hasText(certificate.getGetcardid())) {
+            certificate.setGetcardid(this.desService.decrypt(certificate.getGetcardid()));
+        }
 
         if (certificate != null) {
             this.enquiriesService.addenquiries(request, certificate.getCertificatenumber(), certificate.getName(), certificate.getCertificatename());
@@ -62,7 +65,9 @@ public class CertificateContorl {
         Certificate certificate = this.certificateService.findbyid(id);
         if (certificate != null) {
             certificate.setCardid(this.desService.decrypt(certificate.getCardid()));
-            certificate.setGetcardid(this.desService.decrypt(certificate.getGetcardid()));
+            if (StringUtils.hasText(certificate.getGetcardid())) {
+                certificate.setGetcardid(this.desService.decrypt(certificate.getGetcardid()));
+            }
             return certificate;
         } else
             return ErrorCode.NOCERTIFICATEID;
