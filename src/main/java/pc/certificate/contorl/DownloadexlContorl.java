@@ -124,15 +124,18 @@ public class DownloadexlContorl {
         int rowNum = 1;
         for (Expressage expressage : entities) {
 
+            String c = this.userRepository.findOne(expressage.getUserid()).getCardid();
+
             XSSFRow row = sheet.createRow(rowNum);
             row.createCell(0).setCellValue(expressage.getName());
-            row.createCell(1).setCellValue(expressage.getCertificatename());
-            row.createCell(2).setCellValue(expressage.getCertificatenumber());
-            row.createCell(3).setCellValue(expressage.getPhone());
-            row.createCell(4).setCellValue(expressage.getAddress());
-            row.createCell(5).setCellValue(expressage.getOddnumber());
-            row.createCell(6).setCellValue(expressage.getType());
-            XSSFCell cell = row.createCell(7);
+            row.createCell(1).setCellValue(this.desService.decrypt(c));
+            row.createCell(2).setCellValue(expressage.getCertificatename());
+            row.createCell(3).setCellValue(expressage.getCertificatenumber());
+            row.createCell(4).setCellValue(expressage.getPhone());
+            row.createCell(5).setCellValue(expressage.getAddress());
+            row.createCell(6).setCellValue(expressage.getOddnumber());
+            row.createCell(7).setCellValue(expressage.getType());
+            XSSFCell cell = row.createCell(8);
             rowNum++;
         }
         workbook.write(res.getOutputStream());
@@ -159,26 +162,30 @@ public class DownloadexlContorl {
         cell.setCellStyle(style);
 
         cell = row.createCell(1);
-        cell.setCellValue("证书名称");
+        cell.setCellValue("身份证");
         cell.setCellStyle(style);
 
         cell = row.createCell(2);
-        cell.setCellValue("证书编号");
+        cell.setCellValue("证书名称");
         cell.setCellStyle(style);
 
         cell = row.createCell(3);
-        cell.setCellValue("手机");
+        cell.setCellValue("证书编号");
         cell.setCellStyle(style);
 
         cell = row.createCell(4);
-        cell.setCellValue("寄件地址");
+        cell.setCellValue("手机");
         cell.setCellStyle(style);
 
         cell = row.createCell(5);
-        cell.setCellValue("快递单号");
+        cell.setCellValue("寄件地址");
         cell.setCellStyle(style);
 
         cell = row.createCell(6);
+        cell.setCellValue("快递单号");
+        cell.setCellStyle(style);
+
+        cell = row.createCell(7);
         cell.setCellValue("寄件状态");
         cell.setCellStyle(style);
     }

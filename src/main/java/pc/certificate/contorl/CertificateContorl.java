@@ -124,6 +124,10 @@ public class CertificateContorl {
     @RequestMapping("/certificate/blur")
     public Object blur(int page, int row, String fuzzy) {
         return this.certificateService.fuzzy(page, row, fuzzy);
+    }
 
+    @RequestMapping("/certificate/pickup")
+    public ErrorCode pickup(String certificateid, String getcertificate, String getcardid) {
+        return this.certificateService.getcertificate(certificateid, getcertificate, getcardid);
     }
 }

@@ -13,8 +13,6 @@ import pc.certificate.domain.enums.ErrorCode;
 import pc.certificate.reop.ExpressageRepository;
 import pc.certificate.reop.NewsRepository;
 
-import java.util.List;
-
 /**
  * Created by wu on 17-8-30.
  */
@@ -79,12 +77,11 @@ public class ExpressageService {
             return this.expressageRepository.findAllByOrderByCreatetimeDesc(pageable);
     }
 
-    public ErrorCode success(String expressageid, String oddnumber) {
+    public ErrorCode success(String expressageid) {
         Expressage expressage = this.expressageRepository.findOne(expressageid);
 
         String certificatename = expressage.getCertificatename();
         String userid = expressage.getUserid();
-        expressage.setOddnumber(oddnumber);
         expressage.setType("待寄");
         this.expressageRepository.save(expressage);
 
@@ -116,27 +113,15 @@ public class ExpressageService {
         return ErrorCode.SUCCESS;
     }
 
-    public ErrorCode uptype() {
-        String type = "待寄";
-        List<Expressage> listtype = this.expressageRepository.findByType(type);
-        for (int i = 0; i < listtype.size(); i++) {
-            listtype.get(i).setType("已寄");
-            String certificatename = listtype.get(i).getCertificatename();
-            String userid = listtype.get(i).getUserid();
-
-            News n = new News();
-            n.setTitle("申请证书已经寄件");
-            n.setContent(certificatename + ":证书已经寄件");
-            n.setUserid(userid);
-            n.setType("未读");
-
-            this.newsRepository.save(n);
-            this.expressageRepository.save(listtype);
-        }
-        return ErrorCode.SUCCESS;
-    }
-
     public Expressage findont(String id) {
         return this.expressageRepository.findOne(id);
+    }
+
+    public void addoddnumber(String cardid, Expressage e) {
+        String userid = this.userService.finduser(cardid).getId();
+        Expressage ex = this.expressageRepository.findByUseridAndCertificatenumber(userid, e.getCertificatenumber());
+        ex.setOddnumber(e.getOddnumber());
+        ex.setType("已寄");
+        this.expressageRepository.save(ex);
     }
 }

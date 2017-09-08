@@ -31,6 +31,11 @@ public class Certificate extends BaseEntity implements Serializable {
     private String bindingimage;//绑定申请图片
     private String bindingphoto;//持证人照片
     private String binding;//绑定人
+    private String trueorfalse;//是否可寄
+    private String getcertificate;//领证人
+    private String getcardid;//领证人身份证
+    private String gettype;//领证状态
+    private String gettime;//领证时间
 
     public Certificate() {
     }
@@ -169,5 +174,45 @@ public class Certificate extends BaseEntity implements Serializable {
 
     public void setBindingphoto(String bindingphoto) {
         this.bindingphoto = bindingphoto;
+    }
+
+    public String getTrueorfalse() {
+        return trueorfalse;
+    }
+
+    public void setTrueorfalse(String trueorfalse) {
+        this.trueorfalse = trueorfalse;
+    }
+
+    public String getGetcertificate() {
+        return getcertificate;
+    }
+
+    public void setGetcertificate(String getcertificate) {
+        this.getcertificate = getcertificate;
+    }
+
+    public String getGetcardid() {
+        return getcardid;
+    }
+
+    public void setGetcardid(String getcardid) {
+        this.getcardid = getcardid;
+    }
+
+    public String getGettype() {
+        return gettype;
+    }
+
+    public void setGettype(String gettype) {
+        this.gettype = gettype;
+    }
+
+    public String getGettime() {
+        return gettime;
+    }
+
+    public void setGettime(String gettime) {
+        this.gettime = gettime;
     }
 }

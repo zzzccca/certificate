@@ -110,6 +110,7 @@ public class CertificateService {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        certificate.setGettype("未领取");
         this.certificateRepository.save(certificate);
     }
 
@@ -158,5 +159,17 @@ public class CertificateService {
 
             return this.adminService.returnpage(page, list);
         }
+    }
+
+    public ErrorCode getcertificate(String certificateid, String getcertificate, String getcardid) {
+        Certificate c = this.certificateRepository.findOne(certificateid);
+        c.setGetcertificate(getcertificate);
+        c.setGetcardid(getcardid);
+        c.setGettype("现场领取");
+        Date nowtime = new Date(System.currentTimeMillis());
+        String t = String.valueOf(nowtime);
+        c.setGettime(t);
+        this.certificateRepository.save(c);
+        return ErrorCode.SUCCESS;
     }
 }

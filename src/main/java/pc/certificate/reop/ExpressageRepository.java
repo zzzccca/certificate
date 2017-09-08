@@ -19,6 +19,8 @@ public interface ExpressageRepository extends CrudRepository<Expressage, String>
 
     List<Expressage> findByType(String type);
 
+    Expressage findByUseridAndCertificatenumber(String userid, String certificatenumber);
+
     Page<Expressage> findAllByOrderByCreatetimeDesc(Pageable pageable);
 
     @Query("select e from Expressage e where e.certificatename like %?1% or e.certificatenumber like %?1% or e.name like %?1% or e.oddnumber like %?1% order by e.createtime DESC")

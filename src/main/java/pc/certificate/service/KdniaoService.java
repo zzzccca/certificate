@@ -4,8 +4,10 @@ import com.alibaba.fastjson.JSON;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
+import pc.certificate.domain.Certificate;
 import pc.certificate.domain.Expressage;
 import pc.certificate.domain.News;
+import pc.certificate.reop.CertificateRepository;
 import pc.certificate.reop.ExpressageRepository;
 import pc.certificate.reop.NewsRepository;
 
@@ -30,6 +32,9 @@ public class KdniaoService {
     @Autowired
     private NewsRepository newsRepository;
 
+    @Autowired
+    private CertificateRepository certificateRepository;
+
 
     @Scheduled(cron = "0 0 0 * * ?")// s m h day month week  year  0:制定数字出发 ×：每到节点出发（如 每天，每月，每年） ？：表示忽略（周与月冲突，则忽略）
     public void timer() throws Exception {
@@ -46,6 +51,10 @@ public class KdniaoService {
 
                 String certificatename = ex.get(i).getCertificatename();
                 String userid = ex.get(i).getUserid();
+                String certificateid = ex.get(i).getCertificateid();
+
+                Certificate c = new Certificate();
+                c.setGettype("已寄达");
 
                 News n = new News();
                 n.setTitle("申请证书已经收件");
@@ -54,6 +63,8 @@ public class KdniaoService {
                 n.setType("未读");
 
                 this.newsRepository.save(n);
+
+                this.certificateRepository.save(c);
 
                 this.expressageRepository.save(ex.get(i));
             }
