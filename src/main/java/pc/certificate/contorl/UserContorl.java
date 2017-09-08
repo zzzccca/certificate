@@ -104,6 +104,12 @@ public class UserContorl {
             return image;
     }
 
+    @RequestMapping("/user/logout")
+    public ErrorCode logout(HttpSession session){
+        session.invalidate();
+        return ErrorCode.SUCCESS;
+    }
+
 
     @RequestMapping("/user/findone")
     public User findone(String id, HttpSession session) {
