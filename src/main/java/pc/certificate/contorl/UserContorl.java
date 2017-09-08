@@ -74,11 +74,7 @@ public class UserContorl {
                 user.setPhone(phone);
                 user.setPassword(password);
                 this.userService.useradd(user);
-                String id = this.userService.finduser(cardid).getId();
-                Map idmap = new HashMap();
-                idmap.put("errorcode", 0);
-                idmap.put("errorinfo", id);
-                return idmap;
+                return ErrorCode.SUCCESS;
             } else if (!map.get("errorcode").equals(200)) {
                 return map;
             } else {
@@ -126,14 +122,14 @@ public class UserContorl {
     }
 
     @RequestMapping("/user/upphone")
-    public Object upphone(HttpSession session, String phone,String code) throws IOException{
-        Map map=new HashMap();
+    public Object upphone(HttpSession session, String phone, String code) throws IOException {
+        Map map = new HashMap();
         map = this.smsService.checkMsg(phone, code);//验证短信验证码返回的状态码
         String id = session.getAttribute("userid").toString();
         if (map.get("errorcode").equals(200)) {
             this.userService.upphone(id, phone);
             return ErrorCode.SUCCESS;
-        }else
+        } else
             return map;
     }
 

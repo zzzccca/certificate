@@ -9,7 +9,7 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 public enum ErrorCode {
     NOLOGIN(7777,"请登陆")
     ,NAMEORPWDERROR(7001,"用户名密码不正确")
-    ,Repeat(7002,"帐号在别处登陆")
+    ,REPEAT(7002,"证书已现场领取")
     ,SUCCESS(0,"操作成功")
     ,NOCERTIFICATE(5555,"查无您的证书或已经注册,无法注册！")
     ,NOCARD(6666,"身份证错误!")

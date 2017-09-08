@@ -170,13 +170,17 @@ public class CertificateService {
 
     public ErrorCode getcertificate(String certificateid, String getcertificate, String getcardid) {
         Certificate c = this.certificateRepository.findOne(certificateid);
-        c.setGetcertificate(getcertificate);
-        c.setGetcardid(this.desService.encrypt(getcardid));
-        c.setGettype("现场领取");
-        Date nowtime = new Date(System.currentTimeMillis());
-        String t = String.valueOf(nowtime);
-        c.setGettime(t);
-        this.certificateRepository.save(c);
-        return ErrorCode.SUCCESS;
+        if (StringUtils.hasText(c.getGetcardid())){
+         return ErrorCode.REPEAT;
+        }else {
+            c.setGetcertificate(getcertificate);
+            c.setGetcardid(this.desService.encrypt(getcardid));
+            c.setGettype("现场领取");
+            Date nowtime = new Date(System.currentTimeMillis());
+            String t = String.valueOf(nowtime);
+            c.setGettime(t);
+            this.certificateRepository.save(c);
+            return ErrorCode.SUCCESS;
+        }
     }
 }
