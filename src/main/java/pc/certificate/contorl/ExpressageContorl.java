@@ -29,8 +29,8 @@ public class ExpressageContorl {
 
     @RequestMapping("/expressage/addexpressage")
     public Object addperessage(String phone, String address, String certificateid, HttpSession session) {
-        String gettype = this.certificateRepository.findOne(certificateid).getGettype();
-        if (gettype.equals("可寄送")) {
+        String t = this.certificateRepository.findOne(certificateid).getTrueorfalse();
+        if (t.equals("可寄送")) {
             String userid = session.getAttribute("userid").toString();
             return this.expressageService.addexpressage(phone, address, certificateid, userid);
         } else
