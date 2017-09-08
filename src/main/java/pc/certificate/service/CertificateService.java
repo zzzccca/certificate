@@ -147,6 +147,7 @@ public class CertificateService {
             while (ite.hasNext()) {
                 Certificate c = ite.next();
                 c.setCardid(this.desService.decrypt(c.getCardid()));
+                c.setGetcardid(this.desService.decrypt(c.getGetcardid()));
             }
             return pagecertificate;
         } else {
@@ -155,6 +156,8 @@ public class CertificateService {
             for (int a = 0; a < list.getContent().size(); a++) {
                 String newcard = this.desService.decrypt(list.getContent().get(a).getCardid());
                 list.getContent().get(a).setCardid(newcard);
+                String newgetcard = this.desService.decrypt(list.getContent().get(a).getGetcardid());
+                list.getContent().get(a).setGetcardid(newgetcard);
             }
 
             return this.adminService.returnpage(page, list);
@@ -164,7 +167,7 @@ public class CertificateService {
     public ErrorCode getcertificate(String certificateid, String getcertificate, String getcardid) {
         Certificate c = this.certificateRepository.findOne(certificateid);
         c.setGetcertificate(getcertificate);
-        c.setGetcardid(getcardid);
+        c.setGetcardid(this.desService.encrypt(getcardid));
         c.setGettype("现场领取");
         Date nowtime = new Date(System.currentTimeMillis());
         String t = String.valueOf(nowtime);

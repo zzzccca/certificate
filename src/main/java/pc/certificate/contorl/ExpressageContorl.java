@@ -1,8 +1,10 @@
 package pc.certificate.contorl;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import pc.certificate.domain.Certificate;
 import pc.certificate.domain.Expressage;
 import pc.certificate.domain.enums.ErrorCode;
 import pc.certificate.reop.CertificateRepository;
@@ -29,8 +31,8 @@ public class ExpressageContorl {
 
     @RequestMapping("/expressage/addexpressage")
     public Object addperessage(String phone, String address, String certificateid, HttpSession session) {
-        String t = this.certificateRepository.findOne(certificateid).getTrueorfalse();
-        if (t.equals("可寄送")) {
+        Certificate c = this.certificateRepository.findOne(certificateid);
+        if (c.getTrueorfalse().equals("可寄送") && !StringUtils.hasText(c.getGetcardid())) {
             String userid = session.getAttribute("userid").toString();
             return this.expressageService.addexpressage(phone, address, certificateid, userid);
         } else

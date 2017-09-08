@@ -48,6 +48,7 @@ public class CertificateContorl {
         Certificate certificate = new Certificate();
         certificate = this.certificateService.findbyid(id);
         certificate.setCardid(this.desService.decrypt(certificate.getCardid()));
+        certificate.setGetcardid(this.desService.decrypt(certificate.getGetcardid()));
 
         if (certificate != null) {
             this.enquiriesService.addenquiries(request, certificate.getCertificatenumber(), certificate.getName(), certificate.getCertificatename());
@@ -61,6 +62,7 @@ public class CertificateContorl {
         Certificate certificate = this.certificateService.findbyid(id);
         if (certificate != null) {
             certificate.setCardid(this.desService.decrypt(certificate.getCardid()));
+            certificate.setGetcardid(this.desService.decrypt(certificate.getGetcardid()));
             return certificate;
         } else
             return ErrorCode.NOCERTIFICATEID;
