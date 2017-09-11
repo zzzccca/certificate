@@ -32,7 +32,7 @@ public class NewsService {
     public Map view(String userid) {
         String type = "未读";
         List<News> listn = this.newsRepository.findByUseridAndType(userid, type);
-        List<News> list = this.newsRepository.findByUserid(userid);
+        List<News> list = this.newsRepository.findByUseridOrderByCreatetimeDesc(userid);
         Map m = new HashMap();
         m.put("number", listn.size());
         m.put("contents", list);

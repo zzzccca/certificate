@@ -12,7 +12,7 @@ import java.util.List;
 @Repository
 public interface NewsRepository extends CrudRepository<News, String> {
 
-    List<News> findByUserid(String userid);
+    List<News> findByUseridOrderByCreatetimeDesc(String userid);
 
     List<News> findByUseridAndType(String userid, String type);
 }
