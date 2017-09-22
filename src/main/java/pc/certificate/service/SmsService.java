@@ -58,11 +58,11 @@ public class SmsService {
         String checkSum = getCheckSum(APP_SECRET, code, curTime);
 
         // 设置请求的header
-        httpPost.addHeader("AppKey", APP_KEY);
-        httpPost.addHeader("Nonce", code);
-        httpPost.addHeader("CurTime", curTime);
-        httpPost.addHeader("CheckSum", checkSum);
-        httpPost.addHeader("Content-Type", "application/x-www-form-urlencoded;charset=utf-8");
+        httpPost.addHeader("AppKey",APP_KEY);
+        httpPost.addHeader("Nonce",code);
+        httpPost.addHeader("CurTime",curTime);
+        httpPost.addHeader("CheckSum",checkSum);
+        httpPost.addHeader("Content-Type","application/x-www-form-urlencoded;charset=utf-8");
 
         // 设置请求的的参数，requestBody参数
         List<NameValuePair> nvps = new ArrayList<NameValuePair>();
@@ -71,11 +71,11 @@ public class SmsService {
          * 2.参数格式是jsonArray的格式，例如 "['13888888888','13666666666']"
          * 3.params是根据你模板里面有几个参数，那里面的参数也是jsonArray格式
          */
-        nvps.add(new BasicNameValuePair("templateid", TEMPLATEID));
-        nvps.add(new BasicNameValuePair("mobile", phone));
-        nvps.add(new BasicNameValuePair("codeLen", CODELEN));
+        nvps.add(new BasicNameValuePair("templateid",TEMPLATEID));
+        nvps.add(new BasicNameValuePair("mobile",phone));
+        nvps.add(new BasicNameValuePair("codeLen",CODELEN));
 
-        httpPost.setEntity(new UrlEncodedFormEntity(nvps, "utf-8"));
+        httpPost.setEntity(new UrlEncodedFormEntity(nvps,"utf-8"));
 
         // 执行请求
         HttpResponse response = httpClient.execute(httpPost);
@@ -95,16 +95,16 @@ public class SmsService {
         String checkSum = getCheckSum(APP_SECRET, code, curTime);
 
         //设置请求的header
-        post.addHeader("AppKey", APP_KEY);
-        post.addHeader("Nonce", code);
-        post.addHeader("CurTime", curTime);
-        post.addHeader("CheckSum", checkSum);
-        post.addHeader("Content-Type", "application/x-www-form-urlencoded;charset=utf-8");
+        post.addHeader("AppKey",APP_KEY);
+        post.addHeader("Nonce",code);
+        post.addHeader("CurTime",curTime);
+        post.addHeader("CheckSum",checkSum);
+        post.addHeader("Content-Type","application/x-www-form-urlencoded;charset=utf-8");
 
         //设置请求参数
         List<NameValuePair> nameValuePairs = new ArrayList<>();
-        nameValuePairs.add(new BasicNameValuePair("mobile", phone));
-        nameValuePairs.add(new BasicNameValuePair("code", code));
+        nameValuePairs.add(new BasicNameValuePair("mobile",phone));
+        nameValuePairs.add(new BasicNameValuePair("code",code));
 
         post.setEntity(new UrlEncodedFormEntity(nameValuePairs, "utf-8"));
 
