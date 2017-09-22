@@ -132,7 +132,7 @@ public class SmsService {
         }
         Map map = new HashMap();
         map.put("errorcode", 414);
-        map.put("errorinfo", "短信参数错误");
+        map.put("errorinfo", codes);
         return map;
     }
 
