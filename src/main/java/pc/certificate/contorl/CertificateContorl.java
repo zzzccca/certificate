@@ -10,6 +10,7 @@ import pc.certificate.service.CertificateService;
 import pc.certificate.service.DesService;
 import pc.certificate.service.EnquiriesService;
 import pc.certificate.service.UploadexlService;
+import pc.certificate.utils.SessionUtil;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -88,24 +89,28 @@ public class CertificateContorl {
     }
 
     @RequestMapping("certificate/uploadexl")
-    public Object uploadexl(@RequestParam("filename") MultipartFile exl) {
-        String name = exl.getOriginalFilename();
-        long size = exl.getSize();
-        if (exl == null) {
-            return ErrorCode.NULL;
-        } else if (name == null || ("").equals(name) || size == 0) {
-            return ErrorCode.NULL;//以上4行皆是判断文件是否为空
-        }
-        boolean a = name.matches("^.+\\.(?i)(xls|xlsx)$");//正则匹配文件后缀
-        if (a == false) {
-            return ErrorCode.ERRORFILE;
+    public Object uploadexl(@RequestParam("filename") MultipartFile exl, HttpSession session) {
+        if (SessionUtil.issession(session) == false) {
+            return ErrorCode.NOLOGIN;
         } else {
-            try {
-                this.uploadexlService.getexl(exl, name);
-            } catch (Exception e) {
-                e.printStackTrace();
+            String name = exl.getOriginalFilename();
+            long size = exl.getSize();
+            if (exl == null) {
+                return ErrorCode.NULL;
+            } else if (name == null || ("").equals(name) || size == 0) {
+                return ErrorCode.NULL;//以上4行皆是判断文件是否为空
             }
-            return ErrorCode.SUCCESS;
+            boolean a = name.matches("^.+\\.(?i)(xls|xlsx)$");//正则匹配文件后缀
+            if (a == false) {
+                return ErrorCode.ERRORFILE;
+            } else {
+                try {
+                    this.uploadexlService.getexl(exl, name);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                return ErrorCode.SUCCESS;
+            }
         }
     }
 
@@ -118,23 +123,39 @@ public class CertificateContorl {
     }
 
     @RequestMapping("/certificate/upcertificate")
-    public Object upcertificate(String id, String certificatename, String name, String cardid, String birthdate, String certificatenumber, String issuanceagencies, String approvalofdate, String issuanceoftime) {
-        return this.certificateService.upcertificate(id, certificatename, name, cardid, birthdate, certificatenumber, issuanceagencies, approvalofdate, issuanceoftime);
+    public Object upcertificate(String id, String certificatename, String name, String cardid, String birthdate, String certificatenumber, String issuanceagencies, String approvalofdate, String issuanceoftime, HttpSession session) {
+        if (SessionUtil.issession(session) == false) {
+            return ErrorCode.NOLOGIN;
+        } else {
+            return this.certificateService.upcertificate(id, certificatename, name, cardid, birthdate, certificatenumber, issuanceagencies, approvalofdate, issuanceoftime);
+        }
 
     }
 
     @RequestMapping("/certificate/fuzzycertificate")//模糊查找证书名
-    public List<Certificate> fuzzycertificate(String certificatename) {
-        return this.certificateService.certificatename(certificatename);
+    public Object fuzzycertificate(String certificatename, HttpSession session) {
+        if (SessionUtil.issession(session) == false) {
+            return ErrorCode.NOLOGIN;
+        } else {
+            return this.certificateService.certificatename(certificatename);
+        }
     }
 
     @RequestMapping("/certificate/blur")
-    public Object blur(int page, int row, String fuzzy) {
-        return this.certificateService.fuzzy(page, row, fuzzy);
+    public Object blur(int page, int row, String fuzzy, HttpSession session) {
+        if (SessionUtil.issession(session) == false) {
+            return ErrorCode.NOLOGIN;
+        } else {
+            return this.certificateService.fuzzy(page, row, fuzzy);
+        }
     }
 
     @RequestMapping("/certificate/pickup")
-    public ErrorCode pickup(String certificateid, String getcertificate, String getcardid) {
-        return this.certificateService.getcertificate(certificateid, getcertificate, getcardid);
+    public ErrorCode pickup(String certificateid, String getcertificate, String getcardid, HttpSession session) {
+        if (SessionUtil.issession(session) == false) {
+            return ErrorCode.NOLOGIN;
+        } else {
+            return this.certificateService.getcertificate(certificateid, getcertificate, getcardid);
+        }
     }
 }

@@ -5,11 +5,11 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import pc.certificate.domain.Certificate;
-import pc.certificate.domain.Expressage;
 import pc.certificate.domain.enums.ErrorCode;
 import pc.certificate.reop.CertificateRepository;
 import pc.certificate.service.ExpressageService;
 import pc.certificate.service.UploadexlService;
+import pc.certificate.utils.SessionUtil;
 
 import javax.servlet.http.HttpSession;
 
@@ -40,23 +40,39 @@ public class ExpressageContorl {
     }
 
     @RequestMapping("/expressage/pageall")
-    public Object pageall(int page, int row, String type, String fuzzy) {
-        return this.expressageService.pageall(page, row, type, fuzzy);
+    public Object pageall(int page, int row, String type, String fuzzy, HttpSession session) {
+        if (SessionUtil.issession(session) == false) {
+            return ErrorCode.NOLOGIN;
+        } else {
+            return this.expressageService.pageall(page, row, type, fuzzy);
+        }
     }
 
     @RequestMapping("/expressage/success")
-    public ErrorCode success(String expressageid) {
-        return this.expressageService.success(expressageid);
+    public ErrorCode success(String expressageid, HttpSession session) {
+        if (SessionUtil.issession(session) == false) {
+            return ErrorCode.NOLOGIN;
+        } else {
+            return this.expressageService.success(expressageid);
+        }
     }
 
     @RequestMapping("/expressage/reject")
-    public ErrorCode reject(String expressageid, String reject) {
-        return this.expressageService.reject(expressageid, reject);
+    public ErrorCode reject(String expressageid, String reject, HttpSession session) {
+        if (SessionUtil.issession(session) == false) {
+            return ErrorCode.NOLOGIN;
+        } else {
+            return this.expressageService.reject(expressageid, reject);
+        }
     }
 
     @RequestMapping("/expressage/findone")
-    public Expressage findone(String id) {
-        return this.expressageService.findont(id);
+    public Object findone(String id, HttpSession session) {
+        if (SessionUtil.issession(session) == false) {
+            return ErrorCode.NOLOGIN;
+        } else {
+            return this.expressageService.findont(id);
+        }
     }
 
     @RequestMapping("expressage/uploadexl")

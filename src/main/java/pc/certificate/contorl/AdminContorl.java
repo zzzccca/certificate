@@ -9,6 +9,8 @@ import pc.certificate.domain.Admin;
 import pc.certificate.domain.enums.ErrorCode;
 import pc.certificate.service.AdminService;
 
+import javax.servlet.http.HttpSession;
+
 /**
  * Created by wu on 17-8-16.
  */
@@ -20,11 +22,18 @@ public class AdminContorl {
     private AdminService adminService;
 
     @RequestMapping("/admin/login")
-    public ErrorCode login(String account, String password) {
+    public ErrorCode login(String account, String password, HttpSession session) {
         Admin admin = this.adminService.login(account, password);
         if (admin != null) {
+            session.setAttribute("userid", admin.getId());
             return ErrorCode.SUCCESS;
         } else
             return ErrorCode.NAMEORPWDERROR;
+    }
+
+    @RequestMapping("/admin/logout")
+    public ErrorCode logout(HttpSession session) {
+        session.invalidate();
+        return ErrorCode.SUCCESS;
     }
 }

@@ -5,7 +5,11 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+import pc.certificate.domain.enums.ErrorCode;
 import pc.certificate.service.EnquiriesService;
+import pc.certificate.utils.SessionUtil;
+
+import javax.servlet.http.HttpSession;
 
 /**
  * Created by wu on 17-8-28.
@@ -18,7 +22,11 @@ public class EnquiriesContorl {
     private EnquiriesService enquiriesService;
 
     @RequestMapping("/enquiries/pageall")
-    public Object pageall(int page, int row, String fuzzy) {
-        return this.enquiriesService.pageall(page, row, fuzzy);
+    public Object pageall(int page, int row, String fuzzy, HttpSession session) {
+        if (SessionUtil.issession(session) == false) {
+            return ErrorCode.NOLOGIN;
+        } else {
+            return this.enquiriesService.pageall(page, row, fuzzy);
+        }
     }
 }

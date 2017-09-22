@@ -13,6 +13,7 @@ import pc.certificate.service.CertificateService;
 import pc.certificate.service.DesService;
 import pc.certificate.service.SmsService;
 import pc.certificate.service.UserService;
+import pc.certificate.utils.SessionUtil;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -105,7 +106,7 @@ public class UserContorl {
     }
 
     @RequestMapping("/user/logout")
-    public ErrorCode logout(HttpSession session){
+    public ErrorCode logout(HttpSession session) {
         session.invalidate();
         return ErrorCode.SUCCESS;
     }
@@ -181,20 +182,23 @@ public class UserContorl {
     }
 
     @RequestMapping("/user/delete")
-    public Object deluser(String id) throws Exception {
-        try {
+    public Object deluser(String id, HttpSession session) {
+        if (SessionUtil.issession(session) == false) {
+            return ErrorCode.NOLOGIN;
+        } else {
             this.userService.deluser(id);
             return ErrorCode.SUCCESS;
-        } catch (Exception e) {
-            e.printStackTrace();
-            return ErrorCode.NULLTEL;
         }
     }
 
 
     @RequestMapping("/user/fuzzy")
-    public Object fuzzy(int page, int row, String fuzzy) {
-        return this.userService.fuzzy(page, row, fuzzy);
+    public Object fuzzy(int page, int row, String fuzzy, HttpSession session) {
+        if (SessionUtil.issession(session) == false) {
+            return ErrorCode.NOLOGIN;
+        } else {
+            return this.userService.fuzzy(page, row, fuzzy);
+        }
     }
 
 
