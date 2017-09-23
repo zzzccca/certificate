@@ -6,6 +6,7 @@ import org.apache.http.NameValuePair;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
@@ -95,12 +96,16 @@ public class SmsService {
         String checkSum = getCheckSum(APP_SECRET, code, curTime);
 
         //设置请求的header
-        post.addHeader("AppKey",APP_KEY);
+        post.addHeader("Appkey",APP_KEY);
         post.addHeader("Nonce",code);
-        post.addHeader("CurTime",curTime);
+        post.addHeader("Curtime",curTime);
         post.addHeader("CheckSum",checkSum);
         post.addHeader("Content-Type","application/x-www-form-urlencoded;charset=utf-8");
 
+        System.out.println(APP_KEY);
+        System.out.println(code);
+        System.out.println(curTime);
+        System.out.println(checkSum);
         //设置请求参数
         List<NameValuePair> nameValuePairs = new ArrayList<>();
         nameValuePairs.add(new BasicNameValuePair("mobile",phone));
