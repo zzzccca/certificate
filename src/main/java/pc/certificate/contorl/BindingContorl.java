@@ -33,7 +33,7 @@ public class BindingContorl {
 
     @RequestMapping("/binding/viewbinding")
     public Object viewbinding(int page, int row, String type, String fuzzy, HttpSession session) {
-        if (SessionUtil.issession(session) == false) {
+        if (SessionUtil.islogin(session) == false) {
             return ErrorCode.NOLOGIN;
         } else {
             return this.bindingService.viewbinding(page, row, type, fuzzy);
@@ -43,7 +43,7 @@ public class BindingContorl {
 
     @RequestMapping("/binding/success")
     public ErrorCode successbinding(String bindingid, String userid, String certificateid, HttpSession session) {
-        if (SessionUtil.issession(session) == false) {
+        if (SessionUtil.islogin(session) == false) {
             return ErrorCode.NOLOGIN;
         } else {
             return this.bindingService.success(bindingid, userid, certificateid);
@@ -52,7 +52,7 @@ public class BindingContorl {
 
     @RequestMapping("/binding/reject")
     public ErrorCode reject(String bindingid, String reject, HttpSession session) {
-        if (SessionUtil.issession(session) == false) {
+        if (SessionUtil.islogin(session) == false) {
             return ErrorCode.NOLOGIN;
         } else {
             return this.bindingService.reject(bindingid, reject);
@@ -61,7 +61,7 @@ public class BindingContorl {
 
     @RequestMapping("/binding/findone")
     public Object findone(String id, HttpSession session) {
-        if (SessionUtil.issession(session) == false) {
+        if (SessionUtil.islogin(session) == false) {
             return ErrorCode.NOLOGIN;
         } else {
             return this.bindingService.findone(id);

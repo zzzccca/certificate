@@ -90,7 +90,7 @@ public class CertificateContorl {
 
     @RequestMapping("certificate/uploadexl")
     public Object uploadexl(@RequestParam("filename") MultipartFile exl, HttpSession session) {
-        if (SessionUtil.issession(session) == false) {
+        if (SessionUtil.islogin(session) == false) {
             return ErrorCode.NOLOGIN;
         } else {
             String name = exl.getOriginalFilename();
@@ -124,7 +124,7 @@ public class CertificateContorl {
 
     @RequestMapping("/certificate/upcertificate")
     public Object upcertificate(String id, String certificatename, String name, String cardid, String birthdate, String certificatenumber, String issuanceagencies, String approvalofdate, String issuanceoftime, HttpSession session) {
-        if (SessionUtil.issession(session) == false) {
+        if (SessionUtil.islogin(session) == false) {
             return ErrorCode.NOLOGIN;
         } else {
             return this.certificateService.upcertificate(id, certificatename, name, cardid, birthdate, certificatenumber, issuanceagencies, approvalofdate, issuanceoftime);
@@ -134,7 +134,7 @@ public class CertificateContorl {
 
     @RequestMapping("/certificate/fuzzycertificate")//模糊查找证书名
     public Object fuzzycertificate(String certificatename, HttpSession session) {
-        if (SessionUtil.issession(session) == false) {
+        if (SessionUtil.islogin(session) == false) {
             return ErrorCode.NOLOGIN;
         } else {
             return this.certificateService.certificatename(certificatename);
@@ -143,7 +143,7 @@ public class CertificateContorl {
 
     @RequestMapping("/certificate/blur")
     public Object blur(int page, int row, String fuzzy, HttpSession session) {
-        if (SessionUtil.issession(session) == false) {
+        if (SessionUtil.islogin(session) == false) {
             return ErrorCode.NOLOGIN;
         } else {
             return this.certificateService.fuzzy(page, row, fuzzy);
@@ -152,7 +152,7 @@ public class CertificateContorl {
 
     @RequestMapping("/certificate/pickup")
     public ErrorCode pickup(String certificateid, String getcertificate, String getcardid, HttpSession session) {
-        if (SessionUtil.issession(session) == false) {
+        if (SessionUtil.islogin(session) == false) {
             return ErrorCode.NOLOGIN;
         } else {
             return this.certificateService.getcertificate(certificateid, getcertificate, getcardid);

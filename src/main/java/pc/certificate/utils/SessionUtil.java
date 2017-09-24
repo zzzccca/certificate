@@ -10,10 +10,7 @@ import javax.servlet.http.HttpSession;
 public class SessionUtil {
 
 
-    public static boolean issession(HttpSession session) {
-        if (StringUtils.hasText(session.getAttribute("userid").toString())) {
-            return false;
-        } else
-            return true;
+    public static boolean islogin(HttpSession session) {
+        return StringUtils.hasText((String) session.getAttribute("userid"));
     }
 }

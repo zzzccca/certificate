@@ -41,7 +41,7 @@ public class ExpressageContorl {
 
     @RequestMapping("/expressage/pageall")
     public Object pageall(int page, int row, String type, String fuzzy, HttpSession session) {
-        if (SessionUtil.issession(session) == false) {
+        if (SessionUtil.islogin(session) == false) {
             return ErrorCode.NOLOGIN;
         } else {
             return this.expressageService.pageall(page, row, type, fuzzy);
@@ -50,7 +50,7 @@ public class ExpressageContorl {
 
     @RequestMapping("/expressage/success")
     public ErrorCode success(String expressageid, HttpSession session) {
-        if (SessionUtil.issession(session) == false) {
+        if (SessionUtil.islogin(session) == false) {
             return ErrorCode.NOLOGIN;
         } else {
             return this.expressageService.success(expressageid);
@@ -59,7 +59,7 @@ public class ExpressageContorl {
 
     @RequestMapping("/expressage/reject")
     public ErrorCode reject(String expressageid, String reject, HttpSession session) {
-        if (SessionUtil.issession(session) == false) {
+        if (SessionUtil.islogin(session) == false) {
             return ErrorCode.NOLOGIN;
         } else {
             return this.expressageService.reject(expressageid, reject);
@@ -68,7 +68,7 @@ public class ExpressageContorl {
 
     @RequestMapping("/expressage/findone")
     public Object findone(String id, HttpSession session) {
-        if (SessionUtil.issession(session) == false) {
+        if (SessionUtil.islogin(session) == false) {
             return ErrorCode.NOLOGIN;
         } else {
             return this.expressageService.findont(id);

@@ -183,7 +183,7 @@ public class UserContorl {
 
     @RequestMapping("/user/delete")
     public Object deluser(String id, HttpSession session) {
-        if (SessionUtil.issession(session) == false) {
+        if (SessionUtil.islogin(session) == false) {
             return ErrorCode.NOLOGIN;
         } else {
             this.userService.deluser(id);
@@ -194,7 +194,7 @@ public class UserContorl {
 
     @RequestMapping("/user/fuzzy")
     public Object fuzzy(int page, int row, String fuzzy, HttpSession session) {
-        if (SessionUtil.issession(session) == false) {
+        if (SessionUtil.islogin(session) == false) {
             return ErrorCode.NOLOGIN;
         } else {
             return this.userService.fuzzy(page, row, fuzzy);
