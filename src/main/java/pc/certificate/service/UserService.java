@@ -6,6 +6,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
+import pc.certificate.domain.Binding;
 import pc.certificate.domain.User;
 import pc.certificate.reop.BindingRepository;
 import pc.certificate.reop.UserRepository;
@@ -87,7 +88,7 @@ public class UserService {
     }
 
     public void deluser(String id) {
-        List binding = this.bindingRepository.findByUserid(id);
+        List<Binding> binding = this.bindingRepository.findByUserid(id);
         this.bindingRepository.delete(binding);
         this.userRepository.delete(id);
     }
