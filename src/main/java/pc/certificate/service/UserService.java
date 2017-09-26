@@ -7,9 +7,11 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import pc.certificate.domain.User;
+import pc.certificate.reop.BindingRepository;
 import pc.certificate.reop.UserRepository;
 
 import java.util.Iterator;
+import java.util.List;
 
 /**
  * Created by wu on 17-8-14.
@@ -18,6 +20,9 @@ import java.util.Iterator;
 public class UserService {
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private BindingRepository bindingRepository;
 
     @Autowired
     private DesService desService;
@@ -82,6 +87,8 @@ public class UserService {
     }
 
     public void deluser(String id) {
+        List binding = this.bindingRepository.findByUserid(id);
+        this.bindingRepository.delete(binding);
         this.userRepository.delete(id);
     }
 
