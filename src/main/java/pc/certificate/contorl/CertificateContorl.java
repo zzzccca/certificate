@@ -125,7 +125,8 @@ public class CertificateContorl {
     @RequestMapping("/certificate/upcertificate")
     public Object upcertificate(String id, String cardid,String certificatenumber,String otherscard,String birthdate,String certificatename, String name,String gender,String approvalofdate,
                                 String issuanceoftime,String issuanceagencies,String reviewcommittee,String objectone,String valueone,String objecttwo,String valuetwo,String objectthree,String valuethree,
-                                String objectfour,String valuefour,String objectfive,String valuefive,String objectsix,String valuesix,String referencenumber,HttpSession session) {
+                                String objectfour,String valuefour,String objectfive,String valuefive,String objectsix,String valuesix,String referencenumber,String bindingtype,
+                                String bindingimage,String bindingphoto,String binding,String trueorfalse,String getcertificate,String getcardid,String gettype,String gettime,HttpSession session) {
         if (SessionUtil.islogin(session) == false) {
             return ErrorCode.NOLOGIN;
         } else {
@@ -155,6 +156,15 @@ public class CertificateContorl {
             c.setObjectsix(objectsix);
             c.setValuesix(valuesix);
             c.setReferencenumber(referencenumber);
+            c.setBindingtype(bindingtype);
+            c.setBindingimage(bindingimage);
+            c.setBindingphoto(bindingphoto);
+            c.setBinding(binding);
+            c.setTrueorfalse(trueorfalse);
+            c.setGetcertificate(getcertificate);
+            c.setGetcardid(getcardid);
+            c.setGettype(gettype);
+            c.setGettime(gettime);
             return this.certificateService.upcertificate(c);
         }
 
