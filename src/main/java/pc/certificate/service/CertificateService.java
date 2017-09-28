@@ -121,17 +121,9 @@ public class CertificateService {
         return birthdate;
     }
 
-    public Object upcertificate(String id, String certificatename, String name, String cardid, String birthdate, String certificatenumber, String issuanceagencies, String approvalofdate, String issuanceoftime) {
-        Certificate certificate = this.certificateRepository.findById(id);
+    public Object upcertificate(Certificate certificate) {
+        Certificate c = this.certificateRepository.findById(certificate.getId());
         if (certificate != null) {
-            certificate.setCertificatename(certificatename);
-            certificate.setName(name);
-            certificate.setCardid(this.desService.encrypt(cardid));
-            certificate.setCertificatenumber(certificatenumber);
-            certificate.setIssuanceagencies(issuanceagencies);
-            certificate.setApprovalofdate(approvalofdate);
-            certificate.setBirthdate(birthdate);
-            certificate.setIssuanceoftime(issuanceoftime);
             this.certificateRepository.save(certificate);
             return ErrorCode.SUCCESS;
         } else

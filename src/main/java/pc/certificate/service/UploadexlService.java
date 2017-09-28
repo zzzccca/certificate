@@ -95,50 +95,83 @@ public class UploadexlService {
                         certificate.setCardid(cell.getStringCellValue());//身份证号
                     } else if (c == 2) {
                         cell.setCellType(CellType.STRING);
-                        certificate.setCertificatenumber(cell.getStringCellValue());//证书编号
+                        certificate.setOtherscard(cell.getStringCellValue());//其它身份证件
                     } else if (c == 3) {
                         cell.setCellType(CellType.STRING);
-                        certificate.setBirthdate(cell.getStringCellValue());//出生年月
+                        certificate.setCertificatenumber(cell.getStringCellValue());//证书编号
                     } else if (c == 4) {
                         cell.setCellType(CellType.STRING);
-                        certificate.setCertificatename(cell.getStringCellValue());//证书名称
+                        certificate.setBirthdate(cell.getStringCellValue());//出生年月
                     } else if (c == 5) {
                         cell.setCellType(CellType.STRING);
-                        certificate.setName(cell.getStringCellValue());//姓名
+                        certificate.setCertificatename(cell.getStringCellValue());//证书名称
                     } else if (c == 6) {
                         cell.setCellType(CellType.STRING);
-                        certificate.setGender(cell.getStringCellValue());//性别
+                        certificate.setName(cell.getStringCellValue());//姓名
                     } else if (c == 7) {
                         cell.setCellType(CellType.STRING);
-                        certificate.setApprovalofdate(cell.getStringCellValue());//批准日期
+                        certificate.setGender(cell.getStringCellValue());//性别
                     } else if (c == 8) {
                         cell.setCellType(CellType.STRING);
-                        certificate.setIssuanceoftime(cell.getStringCellValue());//签发时间
+                        certificate.setObjectone(cell.getStringCellValue());//项目1名称
                     } else if (c == 9) {
                         cell.setCellType(CellType.STRING);
-                        certificate.setIssuanceagencies(cell.getStringCellValue());//签发单位
+                        certificate.setValueone(cell.getStringCellValue());//项目1数据
                     } else if (c == 10) {
                         cell.setCellType(CellType.STRING);
-                        certificate.setReviewcommittee(cell.getStringCellValue());//评审委员会
+                        certificate.setObjecttwo(cell.getStringCellValue());//项目2名称
                     } else if (c == 11) {
                         cell.setCellType(CellType.STRING);
-                        certificate.setMajor(cell.getStringCellValue());//专业类别
+                        certificate.setValuetwo(cell.getStringCellValue());//项目2数据
                     } else if (c == 12) {
                         cell.setCellType(CellType.STRING);
-                        certificate.setLevel(cell.getStringCellValue());//级别
+                        certificate.setObjectthree(cell.getStringCellValue());//项目3名称
                     } else if (c == 13) {
                         cell.setCellType(CellType.STRING);
-                        certificate.setReferencenumber(cell.getStringCellValue());//文号
+                        certificate.setValuethree(cell.getStringCellValue());//项目3数据
                     } else if (c == 14) {
                         cell.setCellType(CellType.STRING);
-                        certificate.setBindingtype(cell.getStringCellValue());//绑定状态
+                        certificate.setObjectfour(cell.getStringCellValue());//项目4名称
                     } else if (c == 15) {
                         cell.setCellType(CellType.STRING);
-                        certificate.setBindingimage(cell.getStringCellValue());//绑定申请图片
+                        certificate.setValuefour(cell.getStringCellValue());//项目4数据
                     } else if (c == 16) {
                         cell.setCellType(CellType.STRING);
-                        certificate.setBindingphoto(cell.getStringCellValue());//持证人照片
+                        certificate.setObjectfive(cell.getStringCellValue());//项目5名称
                     } else if (c == 17) {
+                        cell.setCellType(CellType.STRING);
+                        certificate.setValuefive(cell.getStringCellValue());//项目5数据
+                    } else if (c == 18) {
+                        cell.setCellType(CellType.STRING);
+                        certificate.setObjectsix(cell.getStringCellValue());//项目6名称
+                    } else if (c == 19) {
+                        cell.setCellType(CellType.STRING);
+                        certificate.setValuesix(cell.getStringCellValue());//项目6数据
+                    } else if (c == 20) {
+                        cell.setCellType(CellType.STRING);
+                        certificate.setApprovalofdate(cell.getStringCellValue());//取得日期
+                    } else if (c == 21) {
+                        cell.setCellType(CellType.STRING);
+                        certificate.setIssuanceoftime(cell.getStringCellValue());//签发时间
+                    } else if (c == 22) {
+                        cell.setCellType(CellType.STRING);
+                        certificate.setIssuanceagencies(cell.getStringCellValue());//签发单位
+                    } else if (c == 23) {
+                        cell.setCellType(CellType.STRING);
+                        certificate.setReviewcommittee(cell.getStringCellValue());//评审委员会
+                    } else if (c == 24) {
+                        cell.setCellType(CellType.STRING);
+                        certificate.setReferencenumber(cell.getStringCellValue());//文号
+                    } else if (c == 25) {
+                        cell.setCellType(CellType.STRING);
+                        certificate.setBindingtype(cell.getStringCellValue());//绑定状态
+                    } else if (c == 26) {
+                        cell.setCellType(CellType.STRING);
+                        certificate.setBindingimage(cell.getStringCellValue());//绑定申请图片
+                    } else if (c == 27) {
+                        cell.setCellType(CellType.STRING);
+                        certificate.setBindingphoto(cell.getStringCellValue());//持证人照片
+                    } else if (c == 28) {
                         cell.setCellType(CellType.STRING);
                         certificate.setTrueorfalse(cell.getStringCellValue());//证书是否可寄
                     }

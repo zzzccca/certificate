@@ -123,11 +123,39 @@ public class CertificateContorl {
     }
 
     @RequestMapping("/certificate/upcertificate")
-    public Object upcertificate(String id, String certificatename, String name, String cardid, String birthdate, String certificatenumber, String issuanceagencies, String approvalofdate, String issuanceoftime, HttpSession session) {
+    public Object upcertificate(String id, String cardid,String certificatenumber,String otherscard,String birthdate,String certificatename, String name,String gender,String approvalofdate,
+                                String issuanceoftime,String issuanceagencies,String reviewcommittee,String objectone,String valueone,String objecttwo,String valuetwo,String objectthree,String valuethree,
+                                String objectfour,String valuefour,String objectfive,String valuefive,String objectsix,String valuesix,String referencenumber,HttpSession session) {
         if (SessionUtil.islogin(session) == false) {
             return ErrorCode.NOLOGIN;
         } else {
-            return this.certificateService.upcertificate(id, certificatename, name, cardid, birthdate, certificatenumber, issuanceagencies, approvalofdate, issuanceoftime);
+            Certificate c=new Certificate();
+            c.setId(id);
+            c.setCardid(cardid);
+            c.setCertificatenumber(certificatenumber);
+            c.setOtherscard(otherscard);
+            c.setBirthdate(birthdate);
+            c.setCertificatename(certificatename);
+            c.setName(name);
+            c.setGender(gender);
+            c.setApprovalofdate(approvalofdate);
+            c.setIssuanceoftime(issuanceoftime);
+            c.setIssuanceagencies(issuanceagencies);
+            c.setReviewcommittee(reviewcommittee);
+            c.setObjectone(objectone);
+            c.setValueone(valueone);
+            c.setObjecttwo(objecttwo);
+            c.setValuetwo(valuetwo);
+            c.setObjectthree(objectthree);
+            c.setValuethree(valuethree);
+            c.setObjectfour(objectfour);
+            c.setValuefour(valuefour);
+            c.setObjectfive(objectfive);
+            c.setValuefive(valuefive);
+            c.setObjectsix(objectsix);
+            c.setValuesix(valuesix);
+            c.setReferencenumber(referencenumber);
+            return this.certificateService.upcertificate(c);
         }
 
     }

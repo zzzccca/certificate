@@ -15,17 +15,28 @@ import java.io.Serializable;
 @Table(name = "c_certificate")
 public class Certificate extends BaseEntity implements Serializable {
     private String cardid;//身份证
-    private String certificatenumber;//证书编号
+    private String certificatenumber;   //证书编号
+    private String otherscard;//其它身份证件
     private String birthdate;//出生年月
     private String certificatename;//证书名称
     private String name;//名字
     private String gender;//性别
-    private String approvalofdate;//批准日期
+    private String approvalofdate;//取得日期
     private String issuanceoftime;//签发时间
     private String issuanceagencies;//签发单位
     private String reviewcommittee;//评审委员会
-    private String major;//专业类别
-    private String level;//级别
+    private String objectone;//项目1名称
+    private String valueone;//项目1数据
+    private String objecttwo;//项目2名称
+    private String valuetwo;//项目2数据
+    private String objectthree;//项目3名称
+    private String valuethree;//项目3数据
+    private String objectfour;//项目4名称
+    private String valuefour;//项目4数据
+    private String objectfive;//项目5名称
+    private String valuefive;//项目5数据
+    private String objectsix;//项目6名称
+    private String valuesix;//项目6数据
     private String referencenumber;//文号
     private String bindingtype;//绑定状态
     private String bindingimage;//绑定申请图片
@@ -128,20 +139,20 @@ public class Certificate extends BaseEntity implements Serializable {
         this.reviewcommittee = reviewcommittee;
     }
 
-    public String getMajor() {
-        return major;
+    public String getObjectone() {
+        return objectone;
     }
 
-    public void setMajor(String major) {
-        this.major = major;
+    public void setObjectone(String objectone) {
+        this.objectone = objectone;
     }
 
-    public String getLevel() {
-        return level;
+    public String getValueone() {
+        return valueone;
     }
 
-    public void setLevel(String level) {
-        this.level = level;
+    public void setValueone(String valueone) {
+        this.valueone = valueone;
     }
 
     public String getReferencenumber() {
@@ -214,5 +225,93 @@ public class Certificate extends BaseEntity implements Serializable {
 
     public void setGettime(String gettime) {
         this.gettime = gettime;
+    }
+
+    public String getOtherscard() {
+        return otherscard;
+    }
+
+    public void setOtherscard(String otherscard) {
+        this.otherscard = otherscard;
+    }
+
+    public String getObjecttwo() {
+        return objecttwo;
+    }
+
+    public void setObjecttwo(String objecttwo) {
+        this.objecttwo = objecttwo;
+    }
+
+    public String getValuetwo() {
+        return valuetwo;
+    }
+
+    public void setValuetwo(String valuetwo) {
+        this.valuetwo = valuetwo;
+    }
+
+    public String getObjectthree() {
+        return objectthree;
+    }
+
+    public void setObjectthree(String objectthree) {
+        this.objectthree = objectthree;
+    }
+
+    public String getValuethree() {
+        return valuethree;
+    }
+
+    public void setValuethree(String valuethree) {
+        this.valuethree = valuethree;
+    }
+
+    public String getObjectfour() {
+        return objectfour;
+    }
+
+    public void setObjectfour(String objectfour) {
+        this.objectfour = objectfour;
+    }
+
+    public String getValuefour() {
+        return valuefour;
+    }
+
+    public void setValuefour(String valuefour) {
+        this.valuefour = valuefour;
+    }
+
+    public String getObjectfive() {
+        return objectfive;
+    }
+
+    public void setObjectfive(String objectfive) {
+        this.objectfive = objectfive;
+    }
+
+    public String getValuefive() {
+        return valuefive;
+    }
+
+    public void setValuefive(String valuefive) {
+        this.valuefive = valuefive;
+    }
+
+    public String getObjectsix() {
+        return objectsix;
+    }
+
+    public void setObjectsix(String objectsix) {
+        this.objectsix = objectsix;
+    }
+
+    public String getValuesix() {
+        return valuesix;
+    }
+
+    public void setValuesix(String valuesix) {
+        this.valuesix = valuesix;
     }
 }
