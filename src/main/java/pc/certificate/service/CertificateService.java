@@ -175,4 +175,11 @@ public class CertificateService {
             return ErrorCode.SUCCESS;
         }
     }
+
+
+    public ErrorCode removebinding(String certificateid){
+        Certificate c=this.certificateRepository.findById(certificateid);
+        c.setBinding("");
+        return ErrorCode.SUCCESS;
+    }
 }
