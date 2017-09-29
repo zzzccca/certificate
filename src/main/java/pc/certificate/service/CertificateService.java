@@ -122,12 +122,8 @@ public class CertificateService {
     }
 
     public Object upcertificate(Certificate certificate) {
-        Certificate c = this.certificateRepository.findById(certificate.getId());
-        if (certificate != null) {
             this.certificateRepository.save(certificate);
             return ErrorCode.SUCCESS;
-        } else
-            return ErrorCode.NOCERTIFICATEID;
     }
 
 
