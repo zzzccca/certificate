@@ -67,4 +67,9 @@ public class BindingContorl {
             return this.bindingService.findone(id);
         }
     }
+
+    @RequestMapping("/binding/remove")
+    public ErrorCode removebinding(String bindingid){
+        return this.bindingService.removebinding(bindingid);
+    }
 }

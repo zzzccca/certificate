@@ -195,9 +195,4 @@ public class CertificateContorl {
             return this.certificateService.getcertificate(certificateid, getcertificate, getcardid);
         }
     }
-
-    @RequestMapping("/certificate/remove")
-    public ErrorCode removebinding(String certificateid){
-        return this.certificateService.removebinding(certificateid);
-    }
 }

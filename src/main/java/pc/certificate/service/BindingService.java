@@ -142,4 +142,17 @@ public class BindingService {
     public Binding findone(String id) {
         return this.bindingRepository.findOne(id);
     }
+
+    public ErrorCode removebinding(String bindingid){
+        Binding b=this.findone(bindingid);
+        b.setType("待审核");
+        this.bindingRepository.save(b);
+
+        Certificate c=this.certificateRepository.findById(b.getCertificateid());
+        c.setBinding("");
+        c.setBindingtype("");
+        this.certificateRepository.save(c);
+
+        return ErrorCode.SUCCESS;
+    }
 }
