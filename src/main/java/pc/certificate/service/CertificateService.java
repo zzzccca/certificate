@@ -168,7 +168,7 @@ public class CertificateService {
             c.setGetcertificate(getcertificate);
             c.setGetcardid(this.desService.encrypt(getcardid));
             c.setGettype("现场领取");
-            Date nowtime = new Date(System.currentTimeMillis());
+            long nowtime = new Long(System.currentTimeMillis());
             String t = String.valueOf(nowtime);
             c.setGettime(t);
             this.certificateRepository.save(c);
