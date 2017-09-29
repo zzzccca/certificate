@@ -130,8 +130,9 @@ public class CertificateContorl {
         if (SessionUtil.islogin(session) == false) {
             return ErrorCode.NOLOGIN;
         } else {
+            String newcardid=this.desService.encrypt(cardid);
             Certificate c=this.certificateService.findbyid(id);
-            c.setCardid(cardid);
+            c.setCardid(newcardid);
             c.setCertificatenumber(certificatenumber);
             c.setOtherscard(otherscard);
             c.setBirthdate(birthdate);
